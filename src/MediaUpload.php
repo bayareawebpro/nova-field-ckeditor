@@ -13,7 +13,7 @@ class MediaUpload extends Image
      */
     public function __construct(string $name, string $disk = 'public')
     {
-        parent::__construct($name, 'file', $disk, new MediaStorage($disk));
+        parent::__construct($name, 'file', $disk, app('ckeditor-media-storage', compact('disk')));
         $this->deletable(NovaRequest::capture()->isCreateOrAttachRequest());
         $this->hideWhenUpdating();
         $this->prunable();

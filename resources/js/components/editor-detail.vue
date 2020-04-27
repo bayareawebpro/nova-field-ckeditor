@@ -12,7 +12,7 @@
         />
     </div>
 </template>
-<style lang="sass" scoped>
+<style lang="sass">
     @import "./../../sass/figures.sass"
     @import "./../../sass/blocks.sass"
 </style>

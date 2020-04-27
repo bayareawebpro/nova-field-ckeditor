@@ -1,169 +1,48 @@
-#### CKEditor
-- https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/vuejs.html
+## CkEditor Field + Media
 
-### CkEditor Field Usage
+> Docs: https://ckeditor.com/docs
+
+Snippets will only render CkEditor Elements.  Standard HTML or Figures (table, image, video).
+
 ```php
-[
-CkEditor::make('content')
+CkEditor::make('Content')
     ->rules('required')
+    ->hideFromIndex()
     ->mediaBrowser()
     ->linkBrowser()
-    ->hideFromIndex()
+    ->stacked()
+    ->snippets([
+        ['name' =>'Cool Snippet1', 'html'=> view('snippets.1')->render()],
+        ['name' =>'Cool Snippet2', 'html'=> view('snippets.2')->render()],
+        ['name' =>'Cool Snippet3', 'html'=> view('snippets.3')->render()],
+    ]),
+```
+
+```php
+FeaturedMedia::make('Image','media_id')
+    ->rules('nullable')
     ->stacked(),
-];
 ```
 
-### Media Resource
-
-Model Attributes: 
+#### Disk
 ```php
-[
-    'file', 
-    'mime',
-    'size', 
-    'hash',
-    'width', 
-    'height',
-];
+'media' => [
+    'driver' => 'local',
+    'root' => storage_path('app/public/media'),
+    'url' => env('APP_URL').'/storage/media',
+    //'url' => 'https://my.sfo2.cdn.digitaloceanspaces.com/media',
+    'visibility' => 'public',
+],
 ```
 
+#### MediaStorage 
+
+> Override the MediaStorage Service by binding your own extended version.
+
 ```php
-
-use BayAreaWebPro\NovaFieldCkEditor\MediaUpload;
-
- return [
-    MediaUpload::make('File', $disk = 'media')
-        ->rules('mimes:jpg,jpeg,png,gif', 'max:5000')
-        ->help('5MB Max FileSize.')
-        ->maxWidth(800),
-    Text::make('Filename', 'file')
-        ->exceptOnForms()
-        ->sortable(),
-    Text::make('Mime')
-        ->exceptOnForms()
-        ->sortable(),
-    Text::make('Size')
-        ->exceptOnForms()
-        ->sortable(),
-    Text::make('Width')
-        ->exceptOnForms()
-        ->sortable(),
-    Text::make('Height')
-        ->exceptOnForms()
-        ->sortable(),
-];
-```
-
-### Page Model
-```php
-<?php
-
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
-class Page extends Model
-{
-    protected $fillable = [
-        'title',
-        'content',
-    ];
-
-    public function featured_media(): BelongsTo
-    {
-        return $this->belongsTo(Media::class, 'media_id');
-    }
-}
-```
-
-### Media Model
-```php
-<?php
-
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
 use BayAreaWebPro\NovaFieldCkEditor\MediaStorage;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+class MyMediaStorage extends MediaStorage{
 
-class Media extends Model
-{
-    protected $fillable = [
-        'file', 'mime',
-        'size', 'hash',
-        'width', 'height',
-    ];
-
-    /**
-     * Get Pages Assigned to Model.
-     */
-    public function pages(): HasMany
-    {
-        return $this->hasMany(Page::class, 'featured_media_id', 'id');
-    }
-
-    /**
-     * Get the live Url
-     * @return string
-     */
-    public function getUrlAttribute()
-    {
-        if(isset($this->attributes['file'])){
-            return MediaStorage::make('media')->url($this->attributes['file']);
-        }
-    }
-
-    /**
-     * Get the formatted KB file size.
-     * @return string
-     */
-    public function getSizeAttribute()
-    {
-        if (isset($this->attributes['size'])) {
-            return number_format((int)$this->attributes['size'] / 1024, 2) . 'kb';
-        }
-    }
 }
-```
-
-
-
-### Media Migration
-```php
-<?php
-
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
-
-class CreateMediaTable extends Migration
-{
-    /**
-     * Run the migrations.
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('media', function (Blueprint $table) {
-            $table->bigIncrements('id')->index();
-            $table->string('mime')->index();
-            $table->string('file')->index();
-            $table->string('hash')->index();
-            $table->unsignedInteger('width')->index();
-            $table->unsignedInteger('height')->index();
-            $table->unsignedInteger('size')->index();
-            $table->timestamps();
-        });
-    }
-
-    /**
-     * Reverse the migrations.
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('media');
-    }
-}
+$this->app->bind('ckeditor-media-storage', MyMediaStorage::class);
 ```
