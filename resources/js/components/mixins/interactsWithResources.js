@@ -54,7 +54,7 @@ export default {
             Object.entries(params).forEach(([key,value])=>data.append(key, value))
             return await Nova.request()
                 .post(`/nova-api/${resourceKey}`,data)
-                .then(({data})=>data)
+                .then(({data})=>data.resource)
                 .catch(this.handleResourceError)
         },
         /**

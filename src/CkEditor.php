@@ -26,8 +26,9 @@ class CkEditor extends Field
      */
     public function mediaBrowser($enabled = true): self
     {
-        $this->meta['mediaBrowser'] = $enabled;
-        return $this;
+        return $this->withMeta([
+            'mediaBrowser' => $enabled
+        ]);
     }
 
     /**
@@ -37,7 +38,20 @@ class CkEditor extends Field
      */
     public function linkBrowser($enabled = true): self
     {
-        $this->meta['linkBrowser'] = $enabled;
-        return $this;
+        return $this->withMeta([
+            'linkBrowser' => $enabled
+        ]);
+    }
+
+    /**
+     * Enable Snippets Browser
+     * @param array $snippets
+     * @return $this
+     */
+    public function snippets(array $snippets): self
+    {
+        return $this->withMeta([
+            'snippetBrowser' => $snippets
+        ]);
     }
 }

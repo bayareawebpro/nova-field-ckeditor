@@ -124,7 +124,7 @@ class MediaStorage
      * @param string $path
      * @return int
      */
-    protected function optimize(string $path): int
+    public function optimize(string $path): int
     {
         $binaryPath = config('image.optimizer_binary_path','/usr/local/bin');
         $optimizerChain = (new OptimizerChain())

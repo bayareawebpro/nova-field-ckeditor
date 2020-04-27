@@ -3,8 +3,9 @@
     import MediaBrowser from "./media-browser"
     import LinkBrowser from "./link-browser"
     import {FormField, HandlesValidationErrors} from 'laravel-nova'
+    import SnippetBrowser from "./snippet-browser"
     export default {
-        components: {LinkBrowser,MediaBrowser},
+        components: {SnippetBrowser, LinkBrowser,MediaBrowser},
         mixins: [FormField, HandlesValidationErrors],
         props: ['resourceName', 'resourceId', 'field'],
         methods: {
@@ -31,6 +32,7 @@
                 fieldName: this.field.name,
                 linkBrowser: this.field.linkBrowser,
                 mediaBrowser: this.field.mediaBrowser,
+                snippetBrowser: !!this.field.snippetBrowser,
             }).then((editor) => {
                     const {editing, model} = this.$options.editor = editor
                     //Prevent QuestionMark & Slash from triggering Nova Search.
@@ -60,8 +62,9 @@
                 class="hidden"
                 :value="value"
             ></textarea>
-            <media-browser :fieldName="field.name" :multiple="true"/>
             <link-browser :fieldName="field.name"/>
+            <media-browser :fieldName="field.name" :multiple="true"/>
+            <snippet-browser :fieldName="field.name" :snippets="field.snippetBrowser"/>
         </template>
     </default-field>
 </template>

@@ -15,7 +15,7 @@ class FieldServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind('ckeditor-media-storage', MediaStorage::class);
     }
 
     /**

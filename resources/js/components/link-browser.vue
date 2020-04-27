@@ -88,15 +88,13 @@
             </div>
         </template>
         <div v-if="items.length">
-            <ul>
-                <li
-                    :key="item.id"
-                    v-for="(item) in items"
-                    @click.prevent="insert(item)"
-                    class="route-link m-2 border-b pb-2 text-white font-bold text-sm hover:text-primary cursor-pointer">
-                    {{ item.title }}
-                </li>
-            </ul>
+            <div
+                :key="item.id"
+                v-for="(item) in items"
+                @click.prevent="insert(item)"
+                class="m-2 pb-2 text-white font-bold text-sm hover:text-primary cursor-pointer">
+                {{ item.title }}
+            </div>
         </div>
         <div v-else class="h-full flex flex-col items-center justify-center">
             <template v-if="isLoading">

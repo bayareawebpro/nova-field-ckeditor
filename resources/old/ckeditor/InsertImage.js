@@ -97,7 +97,7 @@ export default class InsertImage extends AbstractPlugin{
      * @inheritDoc
      */
     static get requires() {
-        return []
+        return ['Image']
     }
 
     /**
