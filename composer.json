@@ -1,0 +1,31 @@
+{
+    "name": "bayareawebpro/nova-field-ckeditor",
+    "description": "A Laravel Nova field.",
+    "keywords": [
+        "laravel",
+        "nova"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.4",
+        "intervention/image": "^2.5",
+        "spatie/image-optimizer": "^1.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "BayAreaWebPro\\NovaFieldCkEditor\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BayAreaWebPro\\NovaFieldCkEditor\\FieldServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

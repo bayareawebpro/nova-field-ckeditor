@@ -1,0 +1,78 @@
+<script>
+export default {
+    props: {
+        title: {type: String, default: null},
+        value: {type: Boolean, default: false},
+        scrollLock: {type: Boolean, default: true},
+    },
+    watch: {
+        value: {
+            immediate: true,
+            handler(value) {
+                if(value){
+                    if(this.scrollLock){
+                        document.documentElement.classList.add('modal-open')
+                    }
+                    document.addEventListener('keydown', this.onKeyDownEsc)
+                }else{
+                    if(this.scrollLock){
+                        document.documentElement.classList.remove('modal-open')
+                    }
+                    document.removeEventListener('keydown', this.onKeyDownEsc)
+                }
+            }
+        },
+    },
+    methods: {
+        onKeyDownEsc(event){
+            if (event.key === "Escape") {
+                this.toggle()
+            }
+        },
+        toggle(isVisible = null) {
+            this.$emit('input',  typeof isVisible === 'boolean' ? isVisible : !this.value)
+        },
+        hasSlot(slot) {
+            return !!this.$slots[slot]
+        }
+    }
+}
+</script>
+<template>
+    <transition name="editorModal" mode="out-in">
+        <div v-if="value" class="media-modal fixed pin z-50 flex flex-col w-screen h-screen" role="dialog">
+            <div class="flex-0 flex items-center border-b bg-logo pl-6 pr-4" style="min-height: 60px">
+                <div v-if="title" class="flex-0 text-gray-400">
+                    <h3 class="self-center text-white">{{ title }}</h3>
+                </div>
+                <div class="flex-1 pr-1 pl-1 items-center">
+                    <slot name="header"></slot>
+                </div>
+                <div class="flex-0 flex items-center">
+                    <a @click.prevent="toggle(false)" class="h-8 w-8 m-0 cursor-pointer text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill="currentColor" d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="flex-1 w-full bg-grad-sidebar" style="overflow-y: scroll">
+                <slot name="default"></slot>
+            </div>
+            <div class="flex-0 w-full bg-logo border-t p-2" v-if="hasSlot('footer')">
+                <slot name="footer"></slot>
+            </div>
+        </div>
+    </transition>
+</template>
+<style lang="sass">
+.editorModal-enter-active,
+.editorModal-leave-active
+    transition: all 120ms ease-in-out !important
+.editorModal-enter, .editorModal-leave-to
+    opacity: 0 !important
+    transform: scale(1.1) !important
+html.modal-open,
+html.modal-open body
+    overflow: hidden !important
+</style>
