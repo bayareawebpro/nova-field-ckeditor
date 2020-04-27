@@ -152,7 +152,7 @@
                     type="search"
                     v-model="searchTerm"
                     placeholder="Search..."
-                    @keydown.enter="fetch"
+                    @keydown.enter="fetch(1)"
                     class="form-control form-input form-input-bordered"
                 />
                 <select
@@ -182,7 +182,7 @@
 
         <transition name="mediaLoading" mode="out-in">
             <template v-if="isUploading">
-                <div class="flex flex-col bg-black h-full text-white content-center justify-center text-center">
+                <div class="flex flex-col h-full text-white content-center justify-center text-center">
                     <div class="relative" style="height: 64px">
                         <loading/>
                     </div>
@@ -195,8 +195,8 @@
                 @scroll="onScroll"
                 @dragover.prevent=""
                 @drop.prevent="handleUploads"
-                class="bg-black h-full  w-full overflow-y-scroll">
-                <transition-group tag="div" name="mediaLoading" class="flex flex-row flex-wrap">
+                class="h-full w-full overflow-y-scroll">
+                <transition-group tag="div" name="mediaLoading" class="flex flex-row flex-wrap justify-center">
                     <div
                         @click="select(item)"
                         :key="item.id" v-for="item in items"

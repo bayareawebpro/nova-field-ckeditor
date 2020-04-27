@@ -4,6 +4,7 @@ export default {
         title: {type: String, default: null},
         value: {type: Boolean, default: false},
         scrollLock: {type: Boolean, default: true},
+        fullscreen: {type: Boolean, default: false},
     },
     watch: {
         value: {
@@ -40,12 +41,15 @@ export default {
 </script>
 <template>
     <transition name="editorModal" mode="out-in">
-        <div v-if="value" class="media-modal fixed pin z-50 flex flex-col w-screen h-screen" role="dialog">
-            <div class="flex-0 flex items-center border-b bg-logo pl-6 pr-4" style="min-height: 60px">
+        <div v-if="value"
+             role="dialog"
+             class="media-modal fixed pin z-50 flex flex-col shadow"
+             :class="fullscreen ? 'w-screen h-screen' :  'max-w-2x max-h-2x'" >
+            <div class="flex-0 flex items-center border-b bg-logo pl-6 pr-4 py-2">
                 <div v-if="title" class="flex-0 text-gray-400">
                     <h3 class="self-center text-white">{{ title }}</h3>
                 </div>
-                <div class="flex-1 pr-1 pl-1 items-center">
+                <div class="flex-1 px-1 items-center">
                     <slot name="header"></slot>
                 </div>
                 <div class="flex-0 flex items-center">
