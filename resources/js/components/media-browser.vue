@@ -186,7 +186,7 @@
                     <div class="relative" style="height: 64px">
                         <loading/>
                     </div>
-                    <p>Uploading...</p>
+                    <p>Optimizing & Uploading to Storage...</p>
                 </div>
             </template>
             <div
