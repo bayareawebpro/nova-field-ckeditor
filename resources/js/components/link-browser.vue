@@ -32,10 +32,11 @@
             async fetch() {
                 if(this.isLoading) return;
                 this.isLoading = true
-                return await Nova.request()
-                    .get(`${Nova.config.ckeditor.links_route}?search=${this.searchTerm}&${this.query}`)
-                    .then(({data}) => {
-                        this.items = data.resources.map((item)=>this.resourceToObject(item))
+                return await this.fetchResourceCollection('pages', {
+                        search: this.searchTerm,
+                    })
+                    .then((items) => {
+                        this.items = items
                     })
                     .catch((error) => {
                         this.$toasted.show(this.__(':message',{message:error.toString()}),{ type: 'error' })
