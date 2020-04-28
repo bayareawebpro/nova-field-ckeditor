@@ -1,15 +1,14 @@
-<?php namespace App\Nova;
+<?php
+
+namespace App\Nova;
 
 use Illuminate\Http\Request;
-
 use Laravel\Nova\Fields\ID;
-
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Textarea;
 use BayAreaWebPro\NovaFieldCkEditor\CkEditor;
 use BayAreaWebPro\NovaFieldCkEditor\FeaturedMedia;
-
-use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Text;
 
 class Page extends Resource
 {
@@ -49,15 +48,12 @@ class Page extends Resource
     {
         return [
             ID::make()->sortable(),
-
             Text::make('title')
                 ->rules('required')
                 ->stacked(),
-
             Text::make('slug')
                 ->rules('required')
                 ->stacked(),
-
             CkEditor::make('content')
                 ->rules('required')
                 ->mediaBrowser()
@@ -70,24 +66,21 @@ class Page extends Resource
                 ])
                 ->hideFromIndex()
                 ->stacked(),
-
             CkEditor::make('excerpt')
                 ->rules('required')
+                //->mediaBrowser()
+                //->linkBrowser()
                 ->hideFromIndex()
                 ->stacked(),
-
             FeaturedMedia::make('Image','media_id')
                 ->rules('nullable')
                 ->stacked(),
 
-            Text::make('Meta Title')
-                ->rules('required'),
 
-            Textarea::make('Meta Description')
-                ->rules('required'),
 
+            Text::make('Meta Title'),
+            Textarea::make('Meta Description'),
             Select::make('Meta Robots')
-                ->rules('required')
                 ->rules('required')
                 ->displayUsingLabels()
                 ->options([
