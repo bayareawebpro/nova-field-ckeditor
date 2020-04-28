@@ -30,8 +30,22 @@ FeaturedMedia::make('Image','media_id')
     'driver' => 'local',
     'root' => storage_path('app/public/media'),
     'url' => env('APP_URL').'/storage/media',
-    //'url' => 'https://my.sfo2.cdn.digitaloceanspaces.com/media',
     'visibility' => 'public',
+],
+```
+
+```php
+'spaces' => [
+    'driver' => 's3',
+    'key' => env('SPACES_KEY'),
+    'secret' => env('SPACES_SECRET'),
+    'endpoint' => env('SPACES_ENDPOINT'),
+    'region' => env('SPACES_REGION'),
+    'bucket' => env('SPACES_BUCKET'),
+    'root' => 'media',
+    'origin' => 'https://'.env('SPACES_BUCKET').'.'.env('SPACES_REGION').'.digitaloceanspaces.com/media',
+    'edge' => 'https://'.env('SPACES_BUCKET').'.'.env('SPACES_REGION').'.cdn.digitaloceanspaces.com/media',
+    'options' => [ 'CacheControl' => 'max-age=31536000, public' ],
 ],
 ```
 
@@ -40,9 +54,13 @@ FeaturedMedia::make('Image','media_id')
 > Override the MediaStorage Service by binding your own extended version.
 
 ```php
+use Illuminate\Http\Request;
 use BayAreaWebPro\NovaFieldCkEditor\MediaStorage;
 class MyMediaStorage extends MediaStorage{
-
+    public function __invoke(Request $request)
+    {
+        // TODO: Change the default implantation.
+    }
 }
 $this->app->bind('ckeditor-media-storage', MyMediaStorage::class);
 ```

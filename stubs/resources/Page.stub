@@ -3,10 +3,13 @@
 use Illuminate\Http\Request;
 
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
 
 use BayAreaWebPro\NovaFieldCkEditor\CkEditor;
 use BayAreaWebPro\NovaFieldCkEditor\FeaturedMedia;
+
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
 
 class Page extends Resource
 {
@@ -70,14 +73,29 @@ class Page extends Resource
 
             CkEditor::make('excerpt')
                 ->rules('required')
-                ->mediaBrowser()
-                ->linkBrowser()
                 ->hideFromIndex()
                 ->stacked(),
 
             FeaturedMedia::make('Image','media_id')
                 ->rules('nullable')
                 ->stacked(),
+
+            Text::make('Meta Title')
+                ->rules('required'),
+
+            Textarea::make('Meta Description')
+                ->rules('required'),
+
+            Select::make('Meta Robots')
+                ->rules('required')
+                ->rules('required')
+                ->displayUsingLabels()
+                ->options([
+                    'index,follow' => 'Index, Follow',
+                    'index,nofollow' => 'Index, NoFollow',
+                    'noindex,follow' => 'NoIndex, Follow',
+                    'noindex,nofollow' => 'NoIndex, NoFollow',
+                ]),
         ];
     }
 
