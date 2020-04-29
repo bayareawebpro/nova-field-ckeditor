@@ -1,4 +1,4 @@
-# Laravel Nova - CkEditor v7 Field
+# Laravel Nova - CkEditor v5 Field
 Media, Links & Snippet Browsers (VueJS)
 
 ```shell script
