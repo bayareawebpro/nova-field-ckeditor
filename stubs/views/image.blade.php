@@ -1,4 +1,4 @@
 <figure class="image image-style-align-center">
-    <img src="@" class="">
-    <figcaption>Image</figcaption>
+    <img src="https://wallpapercave.com/wp/OndoxGj.jpg" alt="ExoPlanet">
+    <figcaption>ExoPlanet</figcaption>
 </figure>

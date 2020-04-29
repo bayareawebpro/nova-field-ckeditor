@@ -21,10 +21,13 @@ CkEditor::make('Content')
 ```php
 FeaturedMedia::make('Image','media_id')
     ->rules('nullable')
+    ->sizeOnDetail(800, 600)
+    ->sizeOnForms(600, 400)
+    ->sizeOnIndex(100,100)
     ->stacked(),
 ```
 
-#### Disk
+#### Local Disk
 ```php
 'media' => [
     'driver' => 'local',
@@ -34,8 +37,9 @@ FeaturedMedia::make('Image','media_id')
 ],
 ```
 
+#### Cloud Disk
 ```php
-'spaces' => [
+'media' => [
     'driver' => 's3',
     'key' => env('SPACES_KEY'),
     'secret' => env('SPACES_SECRET'),

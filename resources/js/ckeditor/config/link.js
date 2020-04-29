@@ -5,16 +5,26 @@
  */
 export default {
     link: {
-        addTargetToExternalLinks: true,
         decorators: {
             isExternal: {
                 mode: 'automatic',
-                callback: url => ()=>(
-                    url.startsWith( 'http://' ) ||
-                    url.startsWith( 'https://' )
-                ),
+                callback: url => !url.startsWith( '/' ),
                 attributes: {
                     target: '_blank'
+                }
+            },
+            isTargetBlank: {
+                mode: 'manual',
+                label: 'Target _blank',
+                attributes: {
+                    target: '_blank'
+                }
+            },
+            isNoFollow: {
+                mode: 'manual',
+                label: 'No Follow',
+                attributes: {
+                    rel: 'nofollow'
                 }
             },
         }

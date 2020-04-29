@@ -47,8 +47,8 @@
                     page: newPage,
                 })
                 .then((entities) => {
+                    this.items = newPage > 1 ? this.items.concat(entities) : entities
                     if(entities.length){
-                        this.items = this.page > 1 ? this.items.concat(entities) : entities
                         this.page = newPage
                     }
                 })
@@ -131,13 +131,24 @@
             show() {
                 this.fetch(1).then(() => this.isVisible = true)
             },
+            /**
+             * Close the Modal
+             * If the user focuses another instance of the editor, close the modal.
+             */
+            close(field) {
+                if(field !== this.fieldName){
+                    this.isVisible = false
+                }
+            },
         },
         created() {
             this.$options.spinner = spinner
             Nova.$on(`${this.event}`, this.show)
+            Nova.$on(`ckeditor:focused`, this.close)
         },
         beforeDestroy() {
             Nova.$off(`${this.event}`, this.show)
+            Nova.$off(`ckeditor:focused`, this.close)
         }
     }
 </script>
@@ -152,7 +163,7 @@
                     type="search"
                     v-model="searchTerm"
                     placeholder="Search..."
-                    @keydown.enter="fetch(1)"
+                    @keydown.enter.prevent="fetch(1)"
                     class="form-control form-input form-input-bordered"
                 />
                 <select
@@ -181,16 +192,14 @@
         </template>
 
         <transition name="mediaLoading" mode="out-in">
-            <template v-if="isUploading">
-                <div class="flex flex-col h-full text-white content-center justify-center text-center">
-                    <div class="relative" style="height: 64px">
-                        <loading/>
-                    </div>
-                    <p>Optimizing & Uploading to Storage...</p>
+            <div v-if="isUploading" class="flex flex-col h-full text-white content-center justify-center text-center">
+                <div class="relative" style="height: 64px">
+                    <loading/>
                 </div>
-            </template>
+                <p>Optimizing & Uploading to Storage...</p>
+            </div>
             <div
-                v-else
+                v-else-if="items.length"
                 ref="scrollable"
                 @scroll="onScroll"
                 @dragover.prevent=""
@@ -211,6 +220,9 @@
                         />
                     </div>
                 </transition-group>
+            </div>
+            <div v-else class="flex flex-col h-full text-white content-center justify-center text-center">
+                <p>No Results.</p>
             </div>
         </transition>
         <template v-slot:footer>

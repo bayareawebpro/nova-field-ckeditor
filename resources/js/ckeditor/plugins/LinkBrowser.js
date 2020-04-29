@@ -3,6 +3,7 @@ import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview'
 export default class LinkBrowser{
 
     constructor( editor ) {
+        this.editor = editor;
         this.config = editor.config;
         this.model = editor.model;
         this.ui = editor.ui;
@@ -29,6 +30,9 @@ export default class LinkBrowser{
      */
     init() {
         this.ui.componentFactory.add('linkBrowser',this.createButton.bind(this))
+        this.ui.focusTracker.on( 'change:isFocused', ( evt, name, value ) => {
+            Nova.$emit(`ckeditor:focused`, this.fieldName)
+        });
         Nova.$on(`ckeditor:link:${this.fieldName}:write`, this.writeContent.bind(this))
     }
 

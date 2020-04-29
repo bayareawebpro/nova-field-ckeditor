@@ -18,11 +18,18 @@
     }
 </script>
 <template>
-    <v-lazy-image
-        v-if="preview"
-        :src="preview"
-        :src-placeholder="$options.spinner"
-        class="shadow-md rounded mb-3 block"
-        style="width: 75px"
-    />
+    <div>
+        <v-lazy-image
+            v-if="preview"
+            :src="preview"
+            :src-placeholder="$options.spinner"
+            class="shadow-md rounded m-2 block"
+            :style="{
+                width: 'auto',
+                height: 'auto',
+                maxWidth: `${field.index_width}px`,
+                maxHeight: `${field.index_height}px`
+            }"
+        />
+    </div>
 </template>

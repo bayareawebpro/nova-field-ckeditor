@@ -55,8 +55,13 @@ export default {
                 <v-lazy-image
                     :src="preview"
                     :src-placeholder="$options.spinner"
-                    class="shadow-md rounded mb-3 block"
-                    style="max-width: 300px"
+                    class="shadow-md rounded m-2 block"
+                    :style="{
+                        width: 'auto',
+                        height: 'auto',
+                        maxWidth: `${field.form_width}px`,
+                        maxHeight: `${field.form_height}px`
+                    }"
                 />
                 <button
                     type="button"

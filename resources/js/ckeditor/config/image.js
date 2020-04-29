@@ -9,7 +9,7 @@ export default {
         toolbar: [
             'mediaBrowser',
             'imageStyle:full',
-            'imageStyle:side',
+            //'imageStyle:side',
             'imageStyle:alignLeft',
             'imageStyle:alignCenter',
             'imageStyle:alignRight',
@@ -20,7 +20,7 @@ export default {
             'alignCenter',
             'alignRight',
             'full',
-            'side',
+            //'side',
         ]
     }
 }

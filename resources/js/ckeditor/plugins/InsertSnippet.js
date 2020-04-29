@@ -6,6 +6,7 @@ import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview'
 export default class InsertSnippet{
 
     constructor( editor ) {
+        this.editor = editor;
         this.config = editor.config;
         this.model = editor.model;
         this.data = editor.data;

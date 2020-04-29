@@ -56,17 +56,30 @@
              * Toggle the Modal Window & Initialize the State.
              * @return void
              */
-            toggle() {
-                this.isVisible = !this.isVisible
-                this.fetch()
+            open() {
+                this.isVisible = true
+                if(this.isVisible){
+                    this.fetch()
+                }
+            },
+            /**
+             * Close the Modal
+             * If the user focuses another instance of the editor, close the modal.
+             */
+            close(field) {
+                if(field !== this.fieldName){
+                    this.isVisible = false
+                }
             },
         },
         created() {
-            Nova.$on(this.event, this.toggle)
+            Nova.$on(this.event, this.open)
+            Nova.$on(`ckeditor:focused`, this.close)
             //this.toggle()
         },
         beforeDestroy() {
-            Nova.$off(this.event, this.toggle)
+            Nova.$off(this.event, this.open)
+            Nova.$off(`ckeditor:focused`, this.close)
         },
     }
 </script>

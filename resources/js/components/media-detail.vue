@@ -12,8 +12,13 @@
                 v-if="preview"
                 :src="preview"
                 :src-placeholder="$options.spinner"
-                class="shadow-md rounded mb-3 block"
-                style="width: 100%; max-height: 400px"
+                class="shadow-md rounded m-2 block"
+                :style="{
+                    width: 'auto',
+                    height: 'auto',
+                    maxWidth: `${field.defail_width}px`,
+                    maxHeight: `${field.defail_height}px`
+                }"
             />
         </template>
     </panel-item>

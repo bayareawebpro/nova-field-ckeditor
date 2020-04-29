@@ -4,16 +4,21 @@
     }
 </script>
 <template>
-    <div class="py-6">
-        <excerpt
-            :content="field.value"
-            :plain-text="false"
-            :should-show="field.shouldShow"
-        />
-    </div>
+    <panel-item :field="field">
+        <template slot="value">
+            <div class="py-6 ckeditor_content">
+                <excerpt
+                    :content="field.value"
+                    :should-show="field.shouldShow"
+                    :plain-text="false"
+                />
+            </div>
+        </template>
+    </panel-item>
 </template>
 <style lang="sass">
-    @import "./../../sass/figures.sass"
-    @import "./../../sass/blocks.sass"
+    .ckeditor_content
+        @import "./../../sass/figures.sass"
+        @import "./../../sass/blocks.sass"
 </style>
 
