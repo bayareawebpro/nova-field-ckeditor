@@ -25,7 +25,7 @@ php artisan vendor:publish --tag=config
 
 ### Publish Stubs: Models, Resources, Migrations, Views
 
-> Review the included stubs to see the default implementation.
+> Review the included stubs to see the intended implementation.
 
 https://github.com/bayareawebpro/nova-field-ckeditor/tree/master/stubs
 
