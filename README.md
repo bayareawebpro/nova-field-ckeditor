@@ -6,7 +6,7 @@ Media, Links & Snippet Browsers (VueJS)
 ![MIT](https://img.shields.io/badge/License-MIT-success.svg)
 
 Includes custom written plugins for Media, Links & Snippet Modals.
-Publishable stubs for out-of-the-box usage.  Build a blog with rich content editing in minutes.
+Publishable stubs for out-of-the-box usage. Implement rich content editing in minutes.
 
 **Fields Included:** 
 - CkEditor Field
@@ -26,7 +26,8 @@ php artisan vendor:publish --tag=config
 ### Publish Stubs: Models, Resources, Migrations, Views
 
 > Review the included stubs to see the default implementation.
-> https://github.com/bayareawebpro/nova-field-ckeditor/tree/master/stubs
+
+https://github.com/bayareawebpro/nova-field-ckeditor/tree/master/stubs
 
 ```shell script
 php artisan vendor:publish --tag=nova-ckeditor-stubs
