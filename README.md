@@ -58,6 +58,19 @@ FeaturedMedia::make('Image','media_id')
     ->stacked(),
 ```
 
+
+### MediaUpload Field Usage:
+
+> Note this field is **not updatable** by default. 
+> Media can be deleted instead of replaced.
+
+```php
+MediaUpload::make('File', $disk='media')
+    ->rules('required','mimes:jpg,jpeg,png,gif', 'max:5000')
+    ->help('5MB Max FileSize.')
+    ->maxWidth(800),
+```
+
 #### Media Local Disk
 ```php
 'media' => [
