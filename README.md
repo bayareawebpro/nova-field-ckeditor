@@ -1,4 +1,5 @@
-## CkEditor v7 Field + Media Browser (VueJS)
+# Laravel Nova - CkEditor v7 Field
+Media, Links & Snippet Browsers (VueJS)
 
 ```shell script
 composer require bayareawebpro/nova-field-ckeditor
