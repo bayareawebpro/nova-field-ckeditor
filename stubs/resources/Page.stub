@@ -55,7 +55,7 @@ class Page extends Resource
                 ->rules('required')
                 ->stacked(),
             CkEditor::make('content')
-                ->rules('required')
+                ->rules('nullable|string')
                 ->mediaBrowser()
                 ->linkBrowser()
                 ->snippets([
@@ -67,16 +67,14 @@ class Page extends Resource
                 ->hideFromIndex()
                 ->stacked(),
             CkEditor::make('excerpt')
-                ->rules('required')
+                ->rules('nullable|string')
                 //->mediaBrowser()
                 //->linkBrowser()
                 ->hideFromIndex()
                 ->stacked(),
             FeaturedMedia::make('Image','media_id')
-                ->rules('nullable')
+                ->rules('nullable|numeric|exists:media,id')
                 ->stacked(),
-
-
 
             Text::make('Meta Title'),
             Textarea::make('Meta Description'),
