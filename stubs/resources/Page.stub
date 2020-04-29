@@ -47,15 +47,21 @@ class Page extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
+            ID::make()
+                ->exceptOnForms()
+                ->sortable(),
+
             Text::make('title')
                 ->rules('required')
                 ->stacked(),
+
             Text::make('slug')
                 ->rules('required')
+                ->hideFromIndex()
                 ->stacked(),
+
             CkEditor::make('content')
-                ->rules('nullable|string')
+                ->rules('nullable','string')
                 ->mediaBrowser()
                 ->linkBrowser()
                 ->snippets([
@@ -66,14 +72,16 @@ class Page extends Resource
                 ])
                 ->hideFromIndex()
                 ->stacked(),
+
             CkEditor::make('excerpt')
-                ->rules('nullable|string')
-                //->mediaBrowser()
-                //->linkBrowser()
+                ->rules('nullable','string')
+                ->mediaBrowser()
+                ->linkBrowser()
                 ->hideFromIndex()
                 ->stacked(),
+
             FeaturedMedia::make('Image','media_id')
-                ->rules('nullable|numeric|exists:media,id')
+                ->rules('nullable','numeric','exists:media,id')
                 ->stacked(),
 
             Text::make('Meta Title'),
