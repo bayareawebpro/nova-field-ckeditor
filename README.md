@@ -61,8 +61,7 @@ FeaturedMedia::make('Image','media_id')
     'region' => env('SPACES_REGION'),
     'bucket' => env('SPACES_BUCKET'),
     'root' => 'media',
-    'origin' => 'https://'.env('SPACES_BUCKET').'.'.env('SPACES_REGION').'.digitaloceanspaces.com/media',
-    'edge' => 'https://'.env('SPACES_BUCKET').'.'.env('SPACES_REGION').'.cdn.digitaloceanspaces.com/media',
+    'url' => 'https://'.env('SPACES_BUCKET').'.'.env('SPACES_REGION').'.cdn.digitaloceanspaces.com/media',
     'options' => [ 'CacheControl' => 'max-age=31536000, public' ],
 ],
 ```
