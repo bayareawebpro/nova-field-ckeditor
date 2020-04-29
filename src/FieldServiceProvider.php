@@ -48,10 +48,7 @@ class FieldServiceProvider extends ServiceProvider
         Nova::serving(function (ServingNova $event) {
 
             Nova::provideToScript([
-                'ckeditor' => config('nova-ckeditor', [
-                    'media_route' => url('/nova-api/media'),
-                    'links_route' => url('/nova-api/pages'),
-                ])
+                'ckeditor' => config('nova-ckeditor', [])
             ]);
 
             Nova::style('field-ckeditor', __DIR__.'/../dist/css/field.css');
