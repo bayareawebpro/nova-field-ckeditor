@@ -94,7 +94,7 @@ class MediaStorage
         // Make new filename.
         $name = sprintf(
             "%s.{$file->guessExtension()}",
-            Str::slug(Str::limit(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME), 60, ''))
+            Str::slug(Str::limit(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME), 120, ''))
         );
 
         // Resize the image.
