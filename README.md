@@ -3,9 +3,15 @@
 ```shell script
 composer require bayareawebpro/nova-field-ckeditor
 php artisan vendor:publish --tag=config
+```
+
+### Publish Stubs: Models, Resources, Migrations, Views
+
+```shell script
 php artisan vendor:publish --tag=nova-ckeditor-stubs
 ```
 
+### Editor Field Usage:
 ```php
 CkEditor::make('Content')
     ->rules('required')
@@ -22,7 +28,9 @@ CkEditor::make('Content')
 
 > Note: Snippets will only render CkEditor Elements.  
 > Standard HTML or Figures (table, image, video), see included views.
+> https://ckeditor.com/docs
 
+### FeaturedMedia Field Usage:
 ```php
 FeaturedMedia::make('Image','media_id')
     ->rules('nullable')
@@ -32,7 +40,7 @@ FeaturedMedia::make('Image','media_id')
     ->stacked(),
 ```
 
-#### Local Disk
+#### Media Local Disk
 ```php
 'media' => [
     'driver' => 'local',
@@ -42,7 +50,7 @@ FeaturedMedia::make('Image','media_id')
 ],
 ```
 
-#### Cloud Disk
+#### Media Cloud Disk
 ```php
 'media' => [
     'driver' => 's3',
@@ -65,7 +73,8 @@ FeaturedMedia::make('Image','media_id')
 ```php
 use Illuminate\Http\Request;
 use BayAreaWebPro\NovaFieldCkEditor\MediaStorage;
-class MyMediaStorage extends MediaStorage{
+class MyMediaStorage extends MediaStorage
+{
     public function __invoke(Request $request)
     {
         // TODO: Change the default implantation.
@@ -73,5 +82,3 @@ class MyMediaStorage extends MediaStorage{
 }
 $this->app->bind('ckeditor-media-storage', MyMediaStorage::class);
 ```
-
-> Docs: https://ckeditor.com/docs
