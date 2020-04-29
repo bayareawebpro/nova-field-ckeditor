@@ -8,7 +8,7 @@ return [
     'max_height'=>768,
 
     /**
-     * Intervention Image Max Memory (php.ini override)
+     * Max Memory (php.ini override) for Image Resizing
      */
     'memory'=>'256M',
 
