@@ -37,6 +37,8 @@ https://github.com/bayareawebpro/nova-field-ckeditor/tree/master/stubs
 php artisan vendor:publish --tag=nova-ckeditor-stubs
 ```
 
+---
+
 ### Editor Field Usage:
 ```php
 CkEditor::make('Content')
@@ -56,6 +58,11 @@ CkEditor::make('Content')
 > Standard HTML or Figures (table, image, video), see included views.
 > https://ckeditor.com/docs
 
+##### Recommended Package: 
+https://github.com/bayareawebpro/laravel-dom-pipeline
+
+---
+
 ### FeaturedMedia Field Usage:
 
 ```php
@@ -67,6 +74,7 @@ FeaturedMedia::make('Image','media_id')
     ->stacked(),
 ```
 
+---
 
 ### MediaUpload Field Usage:
 

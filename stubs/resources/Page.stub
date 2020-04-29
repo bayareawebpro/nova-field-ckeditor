@@ -52,11 +52,11 @@ class Page extends Resource
                 ->sortable(),
 
             Text::make('title')
-                ->rules('required')
+                ->rules('required','string')
                 ->stacked(),
 
             Text::make('slug')
-                ->rules('required')
+                ->rules('required','string')
                 ->hideFromIndex()
                 ->stacked(),
 
@@ -84,10 +84,14 @@ class Page extends Resource
                 ->rules('nullable','numeric','exists:media,id')
                 ->stacked(),
 
-            Text::make('Meta Title'),
-            Textarea::make('Meta Description'),
+            Text::make('Meta Title')
+                ->rules('nullable','string'),
+
+            Textarea::make('Meta Description')
+                ->rules('nullable','string'),
+
             Select::make('Meta Robots')
-                ->rules('required')
+                ->rules('required', 'string')
                 ->displayUsingLabels()
                 ->options([
                     'index,follow' => 'Index, Follow',
