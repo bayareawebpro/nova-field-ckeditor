@@ -1,6 +1,10 @@
 # Laravel Nova - CkEditor v5 Field
 Media, Links & Snippet Browsers (VueJS)
 
+![Downloads](https://img.shields.io/packagist/dt/bayareawebpro/nova-field-ckeditor.svg)
+![Version](https://img.shields.io/github/v/release/bayareawebpro/nova-field-ckeditor.svg)
+![MIT](https://img.shields.io/badge/License-MIT-success.svg)
+
 Includes custom written plugins for Media, Links & Snippet Modals.
 Publishable stubs for out-of-the-box usage.  Build a blog with rich content editing in minutes.
 
