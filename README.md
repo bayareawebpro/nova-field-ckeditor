@@ -25,7 +25,7 @@ php artisan vendor:publish --tag=config
 
 #### Install Optimizers
 
-> See: https://github.com/spatie/image-optimizer
+> See: https://github.com/spatie/laravel-image-optimizer
 
 ### Publish Stubs: Models, Resources, Migrations, Views
 
