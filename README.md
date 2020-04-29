@@ -21,6 +21,9 @@ php artisan vendor:publish --tag=config
 
 ### Publish Stubs: Models, Resources, Migrations, Views
 
+> Review the included stubs to see the default implementation.
+> https://github.com/bayareawebpro/nova-field-ckeditor/tree/master/stubs
+
 ```shell script
 php artisan vendor:publish --tag=nova-ckeditor-stubs
 ```
@@ -45,6 +48,7 @@ CkEditor::make('Content')
 > https://ckeditor.com/docs
 
 ### FeaturedMedia Field Usage:
+
 ```php
 FeaturedMedia::make('Image','media_id')
     ->rules('nullable')
