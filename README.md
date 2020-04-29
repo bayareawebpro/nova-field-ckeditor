@@ -77,7 +77,7 @@ class MyMediaStorage extends MediaStorage
 {
     public function __invoke(Request $request)
     {
-        // TODO: Change the default implantation.
+        // TODO: Change the default implementation.
     }
 }
 $this->app->bind('ckeditor-media-storage', MyMediaStorage::class);
