@@ -23,6 +23,10 @@ composer require bayareawebpro/nova-field-ckeditor
 php artisan vendor:publish --tag=config
 ```
 
+#### Install Optimizers
+
+> See: https://github.com/spatie/image-optimizer
+
 ### Publish Stubs: Models, Resources, Migrations, Views
 
 > Review the included stubs to see the intended implementation.

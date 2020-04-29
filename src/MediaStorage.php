@@ -2,21 +2,15 @@
 
 namespace BayAreaWebPro\NovaFieldCkEditor;
 
-use Illuminate\Support\Facades\DB;
+use Throwable;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-use Spatie\ImageOptimizer\OptimizerChain;
-use Spatie\ImageOptimizer\Optimizers\Optipng;
-use Spatie\ImageOptimizer\Optimizers\Pngquant;
-use Spatie\ImageOptimizer\Optimizers\Gifsicle;
-use Spatie\ImageOptimizer\Optimizers\Jpegoptim;
-
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
-use Throwable;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class MediaStorage
 {
@@ -104,7 +98,8 @@ class MediaStorage
                 $constraint->upsize();
             });
         }
-        $image->save($file->getRealPath(), 75);
+
+        $image->save($file->getRealPath(), config('nova-ckeditor.max_quality', 75));
 
         return [
             'hash' => $hash,
@@ -124,45 +119,7 @@ class MediaStorage
      */
     public function optimize(string $tempPath):int
     {
-        $binaryPath = config('nova-ckeditor.bin_path', '/usr/local/bin');
-
-        $optimizerChain = (new OptimizerChain())
-            ->addOptimizer(
-                with(new Jpegoptim([
-                    '--max75',
-                    '--strip-all',
-                    '--all-progressive',
-                    '--quiet',
-                ]))
-                ->setBinaryPath($binaryPath)
-            )
-            ->addOptimizer(
-                with(new Optipng([
-                    '-i0',
-                    '-o3',
-                    '-quiet',
-                ]))
-                ->setBinaryPath($binaryPath)
-            )
-            ->addOptimizer(
-                with(new Pngquant([
-                    '--force',
-                    '--skip-if-larger',
-                    '--quality=75',
-                ]))
-                ->setBinaryPath($binaryPath)
-            )
-            ->addOptimizer(
-                with(new Gifsicle([
-                    '-b',
-                    '-O3',
-                ]))
-                ->setBinaryPath($binaryPath)
-            );
-
-        $optimizerChain->useLogger(app('log'));
-        $optimizerChain->optimize($tempPath, $tempPath);
-
+        ImageOptimizer::optimize($tempPath);
         return filesize($tempPath);
     }
 

@@ -1,20 +1,22 @@
 <?php
 return [
     /**
-     * Intervention Image Max Dimensions
-     * @docs http://image.intervention.io/
-     */
-    'max_width' => 1024,
-    'max_height' => 768,
-
-    /**
-     * Max Memory (php.ini override) for Image Resizing
+     * Max Memory (php.ini override) for Intervention Image Resizing
+     * @docs https://www.php.net/manual/en/ini.core.php#ini.memory-limit
      */
     'memory' => '256M',
 
     /**
-     * Spatie Image Optimizer Bin Path
-     * @docs https://github.com/spatie/image-optimizer
+     * Max Intervention Image Output Quality
+     * before Image Optimizer is run.
+     * @docs http://image.intervention.io/api/save
      */
-    'bin_path' => '/usr/local/bin',
+    'max_quality' => 75,
+
+    /**
+     * Intervention Image Max Dimensions
+     * @docs http://image.intervention.io/api/resize
+     */
+    'max_width' => 1024,
+    'max_height' => 768,
 ];
