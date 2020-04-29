@@ -1,7 +1,8 @@
-import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview'
+
 /**
  * @var Nova
  */
+import ButtonView from '@ckeditor/ckeditor5-ui/src/button/buttonview'
 export default class InsertSnippet{
 
     constructor( editor ) {
@@ -49,8 +50,8 @@ export default class InsertSnippet{
      * @return void
      */
     init() {
-        Nova.$on(`ckeditor:snippets:${this.fieldName}:write`, this.writeContent.bind(this))
         this.ui.componentFactory.add('insertSnippet', this.createButton.bind(this))
+        Nova.$on(`ckeditor:snippets:${this.fieldName}:write`, this.writeContent.bind(this))
     }
 
     /**
