@@ -1,5 +1,11 @@
 ## CkEditor Field + Media
 
+```shell script
+composer require bayareawebpro/nova-field-ckeditor
+php artisan vendor:publish --tag=config
+php artisan vendor:publish --tag=nova-ckeditor-stubs
+```
+
 > Docs: https://ckeditor.com/docs
 
 Snippets will only render CkEditor Elements.  Standard HTML or Figures (table, image, video).
