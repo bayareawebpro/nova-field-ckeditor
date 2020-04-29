@@ -6,10 +6,6 @@ php artisan vendor:publish --tag=config
 php artisan vendor:publish --tag=nova-ckeditor-stubs
 ```
 
-> Docs: https://ckeditor.com/docs
-
-Snippets will only render CkEditor Elements.  Standard HTML or Figures (table, image, video).
-
 ```php
 CkEditor::make('Content')
     ->rules('required')
@@ -23,6 +19,9 @@ CkEditor::make('Content')
         ['name' =>'Cool Snippet3', 'html'=> view('snippets.3')->render()],
     ]),
 ```
+
+> Note: Snippets will only render CkEditor Elements.  
+> Standard HTML or Figures (table, image, video), see included views.
 
 ```php
 FeaturedMedia::make('Image','media_id')
@@ -74,3 +73,5 @@ class MyMediaStorage extends MediaStorage{
 }
 $this->app->bind('ckeditor-media-storage', MyMediaStorage::class);
 ```
+
+> Docs: https://ckeditor.com/docs
