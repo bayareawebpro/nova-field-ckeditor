@@ -221,7 +221,10 @@
                     </div>
                 </transition-group>
             </div>
-            <div v-else class="flex flex-col h-full text-white content-center justify-center text-center">
+            <div v-else
+                 @dragover.prevent=""
+                 @drop.prevent="handleUploads"
+                 class="flex flex-col h-full text-white content-center justify-center text-center">
                 <p>No Results.</p>
             </div>
         </transition>
@@ -236,7 +239,7 @@
                     </button>
                 </div>
                 <div class="flex-grow text-white self-center" v-if="selected.length > 1">
-                    {{ selected.length}} Items Selected for Document
+                    {{ selected.length}} Items Selected
                 </div>
             </div>
         </template>

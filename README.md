@@ -1,4 +1,4 @@
-## CkEditor Field + Media
+## CkEditor v7 Field + Media Browser (VueJS)
 
 ```shell script
 composer require bayareawebpro/nova-field-ckeditor
