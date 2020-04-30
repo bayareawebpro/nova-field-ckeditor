@@ -39,7 +39,6 @@ import ImageTextAlternative from '@ckeditor/ckeditor5-image/src/imagetextalterna
 import MediaBrowser from './plugins/MediaBrowser'
 import InsertSnippet from './plugins/InsertSnippet'
 import LinkBrowser from "./plugins/LinkBrowser"
-
 // Extend the Base Class
 export default class CkEditor extends ClassicEditorBase {
 

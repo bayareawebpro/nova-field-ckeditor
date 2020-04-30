@@ -45,6 +45,7 @@
                     orderBy: this.orderBy,
                     perPage: this.perPage,
                     page: newPage,
+                    ckeditor: 'media',
                 })
                 .then((entities) => {
                     this.items = newPage > 1 ? this.items.concat(entities) : entities
@@ -61,23 +62,27 @@
              * @param dataTransfer {DataTransfer}
              */
             handleUploads({dataTransfer}) {
+                if(this.isUploading) return;
                 this.isUploading = true
-                const ids = []
+                const uploads = []
                 const requests = ([...dataTransfer.files]).map(file => {
                     return this.uploadResource('media', {file}).then((item) => {
                         this.$toasted.show(this.__('Complete: :file',item), {
                             type: 'success'
                         })
-                        ids.push(item.id)
+                        uploads.push(item)
                     })
                 })
                 Promise.all(requests)
                     .then(() => this.fetch(1))
-                    .then(()=>this.items
-                        .filter(({id})=>ids.includes(id))
-                        .forEach(this.select.bind(this))
-                    )
-                    .finally(() =>  this.isUploading = false)
+                    .then(()=>{
+                        this.items
+                            .filter((item)=>uploads.includes(item))
+                            .forEach(this.select.bind(this))
+                    })
+                    .finally(() =>  {
+                        this.isUploading = false
+                    })
             },
 
             /**
@@ -106,7 +111,7 @@
                 }
             },
             deselect(item){
-                this.selected = this.selected.filter(entry => entry.id !== item.id)
+                this.selected = this.selected.filter(entry => entry !== item)
             },
             /**
              * Is the item selected?
@@ -114,14 +119,14 @@
              * @return {boolean}
              */
             isSelected(item) {
-                return this.selected.find((entry)=>item.id ===entry.id)
+                return this.selected.find((entry)=>item ===entry)
             },
             /**
              * Handle Infinite Scrolling
              * @param target EventTarget
              */
             onScroll({target}) {
-                if ((target.scrollHeight - target.scrollTop) ===  target.clientHeight) {
+                if ((target.scrollHeight - target.scrollTop) <= target.clientHeight + 200) {
                     this.fetch()
                 }
             },
@@ -129,16 +134,15 @@
              * Show the Modal
              */
             show() {
-                this.fetch(1).then(() => this.isVisible = true)
+                this.isVisible = true
+                this.fetch(1)
             },
             /**
              * Close the Modal
              * If the user focuses another instance of the editor, close the modal.
              */
-            close(field) {
-                if(field !== this.fieldName){
-                    this.isVisible = false
-                }
+            close() {
+                this.isVisible = false
             },
         },
         created() {
@@ -155,44 +159,55 @@
 <template>
     <modal
         ref="modal"
-        title="Media Library"
+        title="Media"
         v-model="isVisible">
         <template v-slot:header>
-            <div class="ml-6">
-                <input
-                    type="search"
-                    v-model="searchTerm"
-                    placeholder="Search..."
-                    @keydown.enter.prevent="fetch(1)"
-                    class="form-control form-input form-input-bordered"
-                />
-                <select
-                    v-model="orderBy"
-                    @change="fetch(1)"
-                    class="form-control form-input form-input-bordered">
-                    <optgroup label="Order By">
-                        <option value="id">ID</option>
-                        <option value="file">FileName</option>
-                        <option value="hash">Hash</option>
-                        <option value="width">Width</option>
-                        <option value="height">Height</option>
-                        <option value="file">FileSize</option>
-                    </optgroup>
-                </select>
-                <select
-                    v-model="sort"
-                    @change="fetch(1)"
-                    class="form-control form-input form-input-bordered">
-                    <optgroup label="Sort">
-                        <option value="asc">Asc.</option>
-                        <option value="desc">Desc.</option>
-                    </optgroup>
-                </select>
+            <div class="pl-6 flex -mx-2">
+                <div class="p-2">
+                    <input
+                        type="search"
+                        v-model="searchTerm"
+                        placeholder="Search..."
+                        @keydown.enter.prevent="fetch(1)"
+                        class="form-control form-input form-input-bordered"
+                    />
+                </div>
+                <div class="p-2">
+                    <select
+                        v-model="orderBy"
+                        @change="fetch(1)"
+                        class="form-control form-input form-input-bordered">
+                        <optgroup label="Order By">
+                            <option value="id">ID</option>
+                            <option value="file">Filename</option>
+                            <option value="hash">Hash</option>
+                            <option value="width">Width</option>
+                            <option value="height">Height</option>
+                            <option value="size">Size</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="p-2">
+                    <select
+                        v-model="sort"
+                        @change="fetch(1)"
+                        class="form-control form-input form-input-bordered">
+                        <optgroup label="Sort">
+                            <option value="asc">Asc.</option>
+                            <option value="desc">Desc.</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div v-if="isLoading" class="self-center p-2">
+                    <div class="relative" style="height: 24px">
+                        <loading/>
+                    </div>
+                </div>
             </div>
         </template>
 
         <transition name="mediaLoading" mode="out-in">
-            <div v-if="isUploading" class="flex flex-col h-full text-white content-center justify-center text-center">
+            <div v-if="isUploading" class="flex flex-col h-full text-white content-center justify-center text-center overflow-hidden">
                 <div class="relative" style="height: 64px">
                     <loading/>
                 </div>
@@ -205,27 +220,26 @@
                 @dragover.prevent=""
                 @drop.prevent="handleUploads"
                 class="h-full w-full overflow-y-scroll">
-                <transition-group tag="div" name="mediaLoading" class="flex flex-row flex-wrap justify-center">
+                <transition-group tag="div" name="mediaLoading" class="flex flex-row flex-wrap justify-center content-center mb-12">
                     <div
                         @click="select(item)"
-                        :key="item.id" v-for="item in items"
-                        class="text-center p-2 cursor-pointer inline-flex">
+                        :key="item.hash" v-for="item in items"
+                        class="text-center p-1 cursor-pointer w-1/6 flex">
                         <v-lazy-image
                             :key="item.id"
                             :src="item.url"
-                            style="max-height: 100px"
                             :src-placeholder="$options.spinner"
                             :class="{'media-image-selected': isSelected(item)}"
-                            class="media-image rounded shadow"
+                            class="media-image rounded shadow bg-white self-center mx-auto"
                         />
                     </div>
                 </transition-group>
             </div>
             <div v-else
-                 @dragover.prevent=""
                  @drop.prevent="handleUploads"
+                 @dragover.prevent=""
                  class="flex flex-col h-full text-white content-center justify-center text-center">
-                <p>No Results.</p>
+                <p>{{ isLoading ? 'Loading...' : 'No Results.'}}</p>
             </div>
         </transition>
         <template v-slot:footer>
@@ -246,6 +260,15 @@
     </modal>
 </template>
 <style lang="sass" scoped>
+
+    .v-lazy-image
+        opacity: 0
+        transition: all 120ms ease-in-out !important
+    .v-lazy-image-loaded
+        width: 100%
+        height: auto
+        opacity: 1
+
     .media-image
         border: 3px solid transparent
         transition: all 120ms ease-in-out
@@ -256,13 +279,6 @@
     .media-image.media-image-selected
         outline-color: aqua
         border: 3px solid aqua !important
-
-    .v-lazy-image
-        opacity: 0
-        transition: all 120ms ease-in-out !important
-
-    .v-lazy-image-loaded
-        opacity: 1
 
     .mediaLoading-enter,
     .mediaLoading-leave-active

@@ -2,10 +2,12 @@ export default {
     toolbar: {
         items: [
             'heading',
-            'insertSnippet',
+            'horizontalLine',
+            '|',
+            'link',
+            'linkBrowser',
             '|',
             'bold',
-            'link',
             'italic',
             'alignment',
             'subscript',
@@ -17,12 +19,10 @@ export default {
             'bulletedList',
             'numberedList',
             '|',
-            'horizontalLine',
             'insertTable',
-            //'imageUpload',
             'mediaEmbed',
             'mediaBrowser',
-            'linkBrowser',
+            'insertSnippet',
             '|',
             'undo',
             'redo'

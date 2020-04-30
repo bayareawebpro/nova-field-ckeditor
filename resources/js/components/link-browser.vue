@@ -20,9 +20,6 @@
             event(){
                 return `ckeditor:link:${this.fieldName}`
             },
-            query(){
-                return `orderBy=title&orderByDirection=asc&perPage=200`
-            },
         },
         methods: {
             /**
@@ -32,8 +29,13 @@
             async fetch() {
                 if(this.isLoading) return;
                 this.isLoading = true
+                this.items = []
                 return await this.fetchResourceCollection('pages', {
                         search: this.searchTerm,
+                        orderByDirection: 'asc',
+                        orderBy: 'title',
+                        perPage: 80,
+                        ckeditor: 'links',
                     })
                     .then((items) => {
                         this.items = items
@@ -57,10 +59,9 @@
              * @return void
              */
             open() {
-                this.isVisible = true
-                if(this.isVisible){
-                    this.fetch()
-                }
+                this.isVisible = !this.isVisible
+                this.$nextTick(()=>this.$refs.input.focus())
+                //setTimeout(()=>this.fetch())
             },
             /**
              * Close the Modal
@@ -93,9 +94,10 @@
         <template slot="header">
             <div class="flex">
                 <input
+                    ref="input"
                     type="search"
                     style="max-width: 155px;"
-                    placeholder="Search Links..."
+                    placeholder="Search..."
                     v-model="searchTerm"
                     @keydown.enter.prevent="fetch"
                     class="shrink-1 border-primary-dark p-2 rounded"/>
@@ -118,7 +120,8 @@
                 </div>
             </template>
             <template v-else>
-                <p class="text-white text-center m-0">No Results.</p>
+                <p class="text-white text-center m-0">No Results</p>
+                <p class="text-sm">Type to search...</p>
             </template>
         </div>
     </modal>
