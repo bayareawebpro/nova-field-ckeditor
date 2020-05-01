@@ -72,7 +72,6 @@ export default class LinkBrowser{
      * Launch the Link Browser.
      */
     openModal(){
-        this.saveSelection()
         Nova.$emit(`ckeditor:link:${this.fieldName}`)
     }
 
@@ -119,6 +118,7 @@ export default class LinkBrowser{
      */
     writeContent(link){
         this.model.change(writer => {
+            this.saveSelection()
             this.model.insertContent(writer.createText(this.text || link.title, {
                 linkHref: `/${link.slug}/`,
                 linkTitle: link.title,
