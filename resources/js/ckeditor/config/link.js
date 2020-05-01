@@ -6,13 +6,6 @@
 export default {
     link: {
         decorators: {
-            isExternal: {
-                mode: 'automatic',
-                callback: url => !url.startsWith( '/' ),
-                attributes: {
-                    target: '_blank'
-                }
-            },
             isTargetBlank: {
                 mode: 'manual',
                 label: 'Target _blank',
