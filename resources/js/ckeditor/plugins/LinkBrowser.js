@@ -31,7 +31,9 @@ export default class LinkBrowser{
     init() {
         this.ui.componentFactory.add('linkBrowser',this.createButton.bind(this))
         this.ui.focusTracker.on( 'change:isFocused', ( evt, name, value ) => {
-            Nova.$emit(`ckeditor:focused`, this.fieldName)
+            if(value === true){
+                Nova.$emit(`ckeditor:focused`, this.fieldName)
+            }
         });
         Nova.$on(`ckeditor:link:${this.fieldName}:write`, this.writeContent.bind(this))
     }
@@ -79,10 +81,14 @@ export default class LinkBrowser{
      * Save the editor selection.
      */
     saveSelection(){
-        this.position = this.model.document.selection
-        this.selected = this.model.getSelectedContent(this.position)
-        if(this.selected && this.selected.getChild(0)){
-            this.text = this.selected.getChild(0).data || null
+        try{
+            this.position = this.model.document.selection
+            this.selected = this.model.getSelectedContent(this.position)
+            if(this.selected && this.selected.getChild(0)){
+                this.text = this.selected.getChild(0).data || null
+            }
+        }catch (e) {
+            console.error(e)
         }
     }
 

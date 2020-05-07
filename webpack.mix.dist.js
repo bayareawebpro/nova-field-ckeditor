@@ -4,7 +4,6 @@ mix
     .setPublicPath('dist')
     .js('resources/js/field.js', 'js')
     .sass('resources/sass/field.sass', 'css')
-    .copy('dist', '/Users/builder/Sites/a1autotransport/vendor/bayareawebpro/nova-field-ckeditor/dist')
 
 /**
  * CkEditor Configuration.
