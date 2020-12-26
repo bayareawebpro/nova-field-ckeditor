@@ -63,7 +63,7 @@ export default {
          * @return void
          */
         handleResourceError(error){
-            this.$toasted.show(this.__(':message',{message:error.toString()}),{
+            this.$toasted.show(this.__(':message',{message:error}),{
                 type: 'error'
             })
         }

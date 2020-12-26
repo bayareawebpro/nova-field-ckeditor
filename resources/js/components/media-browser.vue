@@ -220,7 +220,7 @@
                 @dragover.prevent=""
                 @drop.prevent="handleUploads"
                 class="h-full w-full overflow-y-scroll">
-                <transition-group tag="div" name="mediaLoading" class="flex flex-row flex-wrap justify-center content-center mb-12">
+                <div class="flex flex-row flex-wrap justify-center content-center mb-12">
                     <div
                         @click="select(item)"
                         :key="item.hash" v-for="item in items"
@@ -233,7 +233,7 @@
                             class="media-image rounded shadow bg-white self-center mx-auto"
                         />
                     </div>
-                </transition-group>
+                </div>
             </div>
             <div v-else
                  @drop.prevent="handleUploads"
@@ -279,11 +279,6 @@
     .media-image.media-image-selected
         outline-color: aqua
         border: 3px solid aqua !important
-
-    .mediaLoading-enter,
-    .mediaLoading-leave-active
-        opacity: 0
-        transition: all 120ms ease-in-out !important
 
     .mediaItem-enter,
     .mediaItem-leave-active,

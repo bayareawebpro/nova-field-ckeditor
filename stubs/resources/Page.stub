@@ -47,9 +47,6 @@ class Page extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()
-                ->exceptOnForms()
-                ->sortable(),
 
             Text::make('title')
                 ->rules('required','string')
@@ -57,11 +54,11 @@ class Page extends Resource
 
             Text::make('slug')
                 ->rules('required','string')
-                ->hideFromIndex()
                 ->stacked(),
 
             CkEditor::make('content')
                 ->rules('nullable','string')
+                ->hideFromIndex()
                 ->mediaBrowser()
                 ->linkBrowser()
                 ->snippets([
@@ -70,29 +67,30 @@ class Page extends Resource
                     ['name' =>'Cool Snippet', 'html'=> '<h1>Snippet3</h1>'],
                     ['name' =>'Cool Snippet', 'html'=> '<h1>Snippet4</h1>'],
                 ])
-                ->hideFromIndex()
                 ->stacked(),
 
             CkEditor::make('excerpt')
                 ->rules('nullable','string')
+                ->hideFromIndex()
                 ->mediaBrowser()
                 ->linkBrowser()
-                ->hideFromIndex()
                 ->stacked(),
 
             FeaturedMedia::make('Image','media_id')
-                ->rules('nullable','numeric','exists:media,id')
-                ->stacked(),
+                ->rules('nullable','numeric','exists:media,id'),
 
             Text::make('Meta Title')
-                ->rules('nullable','string'),
+                ->rules('nullable','string')
+                ->hideFromIndex(),
 
             Textarea::make('Meta Description')
-                ->rules('nullable','string'),
+                ->rules('nullable','string')
+                ->hideFromIndex(),
 
             Select::make('Meta Robots')
                 ->rules('required', 'string')
                 ->displayUsingLabels()
+                ->hideFromIndex()
                 ->options([
                     'index,follow' => 'Index, Follow',
                     'index,nofollow' => 'Index, NoFollow',

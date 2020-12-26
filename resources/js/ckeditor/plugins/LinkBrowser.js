@@ -126,7 +126,7 @@ export default class LinkBrowser{
         this.model.change(writer => {
             this.saveSelection()
             this.model.insertContent(writer.createText(this.text || link.title, {
-                linkHref: `/${link.slug}/`,
+                linkHref: link.url || `/${link.slug}`,
                 linkTitle: link.title,
             }),this.position)
             this.clearSelection()

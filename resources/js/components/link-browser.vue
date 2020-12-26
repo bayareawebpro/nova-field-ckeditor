@@ -41,7 +41,7 @@
                         this.items = items
                     })
                     .catch((error) => {
-                        this.$toasted.show(this.__(':message',{message:error.toString()}),{ type: 'error' })
+                        this.$toasted.show(this.__(':message',{message:error}),{ type: 'error' })
                     })
                     .finally(()=>{
                         setTimeout(()=> this.isLoading = false, 300)
