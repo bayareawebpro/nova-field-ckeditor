@@ -14,7 +14,7 @@ class Media extends Resource
      * The model the resource corresponds to.
      * @var string
      */
-    public static $model = \App\Media::class;
+    public static $model = \App\Models\Media::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
