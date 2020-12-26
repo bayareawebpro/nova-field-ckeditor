@@ -3,8 +3,8 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
 use BayAreaWebPro\NovaFieldCkEditor\CkEditor;
@@ -48,15 +48,21 @@ class Page extends Resource
     {
         return [
 
-            Text::make('title')
+            Text::make('Title')
                 ->rules('required','string')
                 ->stacked(),
 
-            Text::make('slug')
+            Slug::make('Slug')
                 ->rules('required','string')
                 ->stacked(),
 
-            CkEditor::make('content')
+            // The Url Attribute should be appended to the resource index
+            // for editor requests if you want to control the link format.
+            Text::make('Url')
+                ->onlyOnIndex()
+                ->hideFromIndex(!$request->has('ckeditor')),
+
+            CkEditor::make('Content')
                 ->rules('nullable','string')
                 ->hideFromIndex()
                 ->mediaBrowser()
@@ -69,7 +75,7 @@ class Page extends Resource
                 ])
                 ->stacked(),
 
-            CkEditor::make('excerpt')
+            CkEditor::make('Excerpt')
                 ->rules('nullable','string')
                 ->hideFromIndex()
                 ->mediaBrowser()

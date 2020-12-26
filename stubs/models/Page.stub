@@ -27,6 +27,6 @@ class Page extends Model
 
     public function getUrlAttribute()
     {
-        return url(data_get($this->attributes, 'slug'));
+        return url($this->slug);
     }
 }
