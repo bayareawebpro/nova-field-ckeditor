@@ -1,10 +1,7 @@
-<?php
-
-namespace App\Nova;
+<?php namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use BayAreaWebPro\NovaFieldCkEditor\MediaUpload;
 
@@ -44,16 +41,14 @@ class Media extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
 
-            MediaUpload::make('File', 'media')
+            MediaUpload::make('Preview', 'media')
                 ->rules('required','mimes:jpg,jpeg,png,gif', 'max:5000')
                 ->help('5MB Max FileSize.')
                 ->maxWidth(800),
 
-            Text::make('File')
-                ->displayUsing(fn ($file) => Str::limit($file, 75))
-                ->exceptOnForms()
+            Text::make('Filename', 'file')
+                ->displayUsing(fn($file) => Str::limit($file, 20))
                 ->sortable(),
 
             Text::make('Hash')
@@ -61,7 +56,7 @@ class Media extends Resource
                 ->sortable(),
 
             Text::make('Mime')
-                ->exceptOnForms()
+                ->onlyOnDetail()
                 ->sortable(),
 
             Text::make('Size')
