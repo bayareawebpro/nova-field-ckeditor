@@ -6,3 +6,4 @@ public/hot
 composer.lock
 package-lock.json
 /webpack.mix.js
+.idea

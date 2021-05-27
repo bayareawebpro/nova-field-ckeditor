@@ -95,6 +95,7 @@ class MediaStorage
         $image = Image::make($file->getRealPath());
         if ($image->width() > $maxWidth || $image->height() > $maxHeight) {
             $image->fit($maxWidth, $maxHeight, function (Constraint $constraint) {
+                $constraint->aspectRatio();
                 $constraint->upsize();
             });
         }
