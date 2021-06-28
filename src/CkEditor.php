@@ -17,6 +17,7 @@ class CkEditor extends Field
     public $meta = [
         'mediaBrowser' => false,
         'linkBrowser' => false,
+        'shouldShow' => false,
     ];
 
     /**
@@ -40,6 +41,18 @@ class CkEditor extends Field
     {
         return $this->withMeta([
             'linkBrowser' => $enabled
+        ]);
+    }
+
+    /**
+     * Always show value in detail view
+     * @param bool $enabled
+     * @return $this
+     */
+    public function alwaysShow($enabled = true): self
+    {
+        return $this->withMeta([
+            'shouldShow' => $enabled
         ]);
     }
 
