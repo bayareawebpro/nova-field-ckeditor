@@ -1,70 +1,83 @@
 <?php namespace BayAreaWebPro\NovaFieldCkEditor;
 
+use Laravel\Nova\Fields\Expandable;
 use Laravel\Nova\Fields\Field;
 
 class CkEditor extends Field
 {
+    use Expandable;
+
     /**
      * The field's component.
-     * @var string
+     * @var string $component
      */
     public $component = 'ckeditor';
 
     /**
-     * The meta data for the element.
+     * Indicates whether the media browser should be available.
+     * @var bool $mediaBrowser
+     */
+    public bool $mediaBrowser = false;
+
+    /**
+     * Indicates whether the link browser should be available.
+     * @var bool $linkBrowser
+     */
+    public bool $linkBrowser = false;
+
+    /**
+     * The snippets to be displayed in the snippet browser.
      * @var array
      */
-    public $meta = [
-        'mediaBrowser' => false,
-        'linkBrowser' => false,
-        'shouldShow' => false,
-    ];
+    public array $snippets = [];
 
     /**
-     * Enable Media Browser
+     * Enable Media Browser.
      * @param bool $enabled
      * @return $this
      */
-    public function mediaBrowser($enabled = true): self
+    public function mediaBrowser(bool $enabled = true): self
     {
-        return $this->withMeta([
-            'mediaBrowser' => $enabled
-        ]);
+        $this->mediaBrowser = $enabled;
+
+        return $this;
     }
 
     /**
-     * Enable Link Browser
+     * Enable Link Browser.
      * @param bool $enabled
      * @return $this
      */
-    public function linkBrowser($enabled = true): self
+    public function linkBrowser(bool $enabled = true): self
     {
-        return $this->withMeta([
-            'linkBrowser' => $enabled
-        ]);
+        $this->linkBrowser = $enabled;
+
+        return $this;
     }
 
     /**
-     * Always show value in detail view
-     * @param bool $enabled
-     * @return $this
-     */
-    public function alwaysShow($enabled = true): self
-    {
-        return $this->withMeta([
-            'shouldShow' => $enabled
-        ]);
-    }
-
-    /**
-     * Enable Snippets Browser
+     * Enable Snippets Browser.
      * @param array $snippets
      * @return $this
      */
     public function snippets(array $snippets): self
     {
-        return $this->withMeta([
-            'snippetBrowser' => $snippets
+        $this->snippets = $snippets;
+
+        return $this;
+    }
+
+    /**
+     * Prepare the element for JSON serialization.
+     * @return array
+     */
+    public function jsonSerialize(): array
+    {
+        return array_merge(parent::jsonSerialize(), [
+            'mediaBrowser' => $this->mediaBrowser,
+            'linkBrowser'  => $this->linkBrowser,
+            'snippets'     => $this->snippets,
+            'shouldShow'   => $this->shouldBeExpanded(),
         ]);
     }
 }
