@@ -3,6 +3,7 @@
 namespace BayAreaWebPro\NovaFieldCkEditor;
 
 use Throwable;
+
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 use Intervention\Image\Constraint;
 use Intervention\Image\Facades\Image;
+
 use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class MediaStorage
@@ -23,7 +25,7 @@ class MediaStorage
      * MediaStorage constructor.
      * @param string $disk
      */
-    public function __construct($disk = 'media')
+    public function __construct(string $disk = 'media')
     {
         $this->disk = $disk;
     }
@@ -33,7 +35,7 @@ class MediaStorage
      * @param string $disk
      * @return static
      */
-    public static function make($disk = 'media'): self
+    public static function make(string $disk = 'media'): self
     {
         return app('ckeditor-media-storage', compact('disk'));
     }
@@ -41,8 +43,8 @@ class MediaStorage
     /**
      * Save a new media file from the Nova request.
      * @param Request $request
-     * @throws Throwable
      * @return array
+     * @throws Throwable
      */
     public function __invoke(Request $request)
     {
@@ -52,12 +54,11 @@ class MediaStorage
     /**
      * Handle the File Upload
      * @param UploadedFile $file
-     * @throws Throwable
      * @return array
+     * @throws Throwable
      */
     public function handleUpload(UploadedFile $file): array
     {
-
         $attributes = $this->resize($file);
 
         $file->storePubliclyAs('', $attributes['file'], [
@@ -72,8 +73,8 @@ class MediaStorage
     /**
      * Perform Resize & Conversion Operations.
      * @param UploadedFile $file
-     * @throws Throwable
      * @return array
+     * @throws Throwable
      */
     protected function resize(UploadedFile $file): array
     {
@@ -82,43 +83,29 @@ class MediaStorage
         $maxWidth = config('nova-ckeditor.max_width', 1024);
         $maxHeight = config('nova-ckeditor.max_height', 768);
 
-        // Hash Original Data.
-        $hash = md5_file($file->getRealPath());
+        $hash = $this->hashFileContents($file);
+        $name = $this->makeTargetFilename($file);
+        $filePath = $this->makeTargetFilePath($name);
 
-        // Make new filename.
-        $name = sprintf(
-            "%s.{$file->guessExtension()}",
-            Str::slug(Str::limit(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME), 120, ''))
-        );
-
-        // Resize the image.
-        $image = Image::make($file->getRealPath());
-        if ($image->width() > $maxWidth || $image->height() > $maxHeight) {
-            $image->resize($maxWidth, $maxHeight, function (Constraint $constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        }
-
-        $image->save($file->getRealPath(), config('nova-ckeditor.max_quality', 75));
+        $image = $this->resizeImage($file, $maxWidth, $maxHeight)->save($filePath, config('nova-ckeditor.max_quality', 75));
 
         return [
             'hash' => $hash,
             'file' => $name,
-            'mime'   => $image->mime(),
-            'width'  => $image->width(),
+            'mime' => $image->mime(),
+            'width' => $image->width(),
             'height' => $image->height(),
-            'size'   => $this->optimize($file->getRealPath()),
+            'size' => $this->optimize($filePath),
         ];
     }
 
     /**
      * Perform Optimization Operations.
      * @param string $tempPath
-     * @throws Throwable
      * @return int
+     * @throws Throwable
      */
-    public function optimize(string $tempPath):int
+    public function optimize(string $tempPath): int
     {
         ImageOptimizer::optimize($tempPath);
         return filesize($tempPath);
@@ -146,5 +133,55 @@ class MediaStorage
     public function url(string $file)
     {
         return Storage::disk($this->disk)->url($file);
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @return false|string
+     */
+    protected function hashFileContents(UploadedFile $file): string
+    {
+        return md5_file($file->getRealPath());
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @return string
+     */
+    protected function makeTargetFilename(UploadedFile $file): string
+    {
+        return sprintf(
+            "%s.%s",
+            Str::slug(Str::limit(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME), config('nova-ckeditor.max_filename_characters', 250), '')),
+            $file->guessExtension()
+        );
+    }
+
+    /**
+     * @param UploadedFile $file
+     * @param $maxWidth
+     * @param $maxHeight
+     * @return \Intervention\Image\Image
+     */
+    protected function resizeImage(UploadedFile $file, $maxWidth, $maxHeight): \Intervention\Image\Image
+    {
+        $image = Image::make($file->getRealPath());
+        if ($image->width() > $maxWidth || $image->height() > $maxHeight) {
+            $image->resize($maxWidth, $maxHeight, function (Constraint $constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            });
+        }
+        return $image;
+    }
+
+    /**
+     * Make target file path.
+     * @param string $name
+     * @return string
+     */
+    protected function makeTargetFilePath(string $name): string
+    {
+        return sys_get_temp_dir() . DIRECTORY_SEPARATOR . $name;
     }
 }

@@ -19,4 +19,10 @@ return [
      */
     'max_width' => 1024,
     'max_height' => 768,
+
+    /**
+     * Maximum characters before trimmed.
+     * @docs https://stackoverflow.com/questions/6870824/what-is-the-maximum-length-of-a-filename-in-s3
+     */
+    'max_filename' => 250,
 ];

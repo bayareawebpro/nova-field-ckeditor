@@ -24,6 +24,7 @@ class FieldServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../stubs/views' => resource_path('views/ckeditor'),
+            __DIR__.'/../stubs/migrations' => resource_path('database/migrations'),
             __DIR__.'/../stubs/models/Page.stub' => app_path('Models/Page.php'),
             __DIR__.'/../stubs/models/Media.stub' => app_path('Models/Media.php'),
             __DIR__.'/../stubs/resources/Page.stub' => app_path('Nova/Page.php'),
