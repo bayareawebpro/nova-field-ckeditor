@@ -24,14 +24,13 @@ class FieldServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../stubs/views' => resource_path('views/ckeditor'),
-            __DIR__.'/../stubs/migrations' => resource_path('database/migrations'),
+            __DIR__.'/../stubs/migrations' => database_path('migrations'),
             __DIR__.'/../stubs/models/Page.stub' => app_path('Models/Page.php'),
             __DIR__.'/../stubs/models/Media.stub' => app_path('Models/Media.php'),
             __DIR__.'/../stubs/resources/Page.stub' => app_path('Nova/Page.php'),
             __DIR__.'/../stubs/resources/Media.stub' => app_path('Nova/Media.php'),
             __DIR__.'/../resources/sass/figures.sass' => resource_path('sass/figures.sass'),
             __DIR__.'/../resources/sass/blocks.sass' => resource_path('sass/blocks.sass'),
-            __DIR__.'/../stubs/CreateCkEditorTables.php' => database_path('migrations/2020_04_25_054249_create_ckeditor_tables.php'),
         ], 'nova-ckeditor-stubs');
 
     }
