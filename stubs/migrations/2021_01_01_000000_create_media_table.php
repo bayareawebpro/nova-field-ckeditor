@@ -13,12 +13,11 @@ class CreateMediaTable extends Migration
     public function up()
     {
         Schema::create('media', function (Blueprint $table) {
-            $table->id();
             $table->bigIncrements('id')->index();
             $table->string('file')->index();
+            $table->string('disk')->index();
             $table->string('mime')->index();
             $table->string('hash')->index();
-            $table->string('disk')->index();
             $table->unsignedInteger('width')->index();
             $table->unsignedInteger('height')->index();
             $table->unsignedInteger('size')->index();

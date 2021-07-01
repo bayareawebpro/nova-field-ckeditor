@@ -13,15 +13,19 @@ class CreatePagesTable extends Migration
     public function up()
     {
         Schema::create('pages', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id')->index();
+
             $table->unsignedBigInteger('media_id')->nullable()->index();
-            $table->string('title',255)->index();
-            $table->string('slug',255)->index();
-            $table->text('excerpt')->nullable();
-            $table->mediumText('content')->nullable();
-            $table->string('meta_title',160)->nullable();
-            $table->string('meta_description',160)->nullable();
-            $table->string('meta_robots')->nullable();
+
+            $table->string('title')->index();
+            $table->string('slug')->index();
+            $table->text('excerpt')->nullable()->default(null);
+            $table->mediumText('content')->nullable()->default(null);
+
+            $table->string('meta_title')->nullable()->default(null);
+            $table->string('meta_robots')->nullable()->default('index,follow')->index();
+            $table->text('meta_description')->nullable()->default(null);
+
             $table->timestamps();
         });
     }
