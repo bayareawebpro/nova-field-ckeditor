@@ -34,6 +34,7 @@ import ImageUpload from '@ckeditor/ckeditor5-image/src/imageupload'
 import ImageToolbar from '@ckeditor/ckeditor5-image/src/imagetoolbar'
 import ImageCaption from '@ckeditor/ckeditor5-image/src/imagecaption'
 import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed'
+import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed'
 import ImageTextAlternative from '@ckeditor/ckeditor5-image/src/imagetextalternative'
 
 import MediaBrowser from './plugins/MediaBrowser'
@@ -87,6 +88,7 @@ export default class CkEditor extends ClassicEditorBase {
             MediaEmbed,
             Table,
             TableToolbar,
+            HtmlEmbed,
         ]
     }
 }

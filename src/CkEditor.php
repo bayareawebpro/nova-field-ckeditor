@@ -20,6 +20,45 @@ class CkEditor extends Field
     public bool $mediaBrowser = false;
 
     /**
+     * Specifies the editor default height in pixels.
+     * @var int $height
+     */
+    public int $height = 300;
+
+    /**
+     * Specifies the available toolbar items.
+     * @var array $toolbar
+     */
+    public array $toolbar = [
+        'heading',
+        'horizontalLine',
+        '|',
+        'link',
+        'linkBrowser',
+        '|',
+        'bold',
+        'italic',
+        'alignment',
+        'subscript',
+        'superscript',
+        'underline',
+        'strikethrough',
+        '|',
+        'blockQuote',
+        'bulletedList',
+        'numberedList',
+        '|',
+        'insertTable',
+        'mediaBrowser',
+        'insertSnippet',
+        'mediaEmbed',
+        'htmlEmbed',
+        '|',
+        'undo',
+        'redo'
+    ];
+
+    /**
      * Indicates whether the link browser should be available.
      * @var bool $linkBrowser
      */
@@ -32,6 +71,28 @@ class CkEditor extends Field
     public array $snippets = [];
 
     /**
+     * Set the toolbar item layout.
+     * @param array $items
+     * @return $this
+     */
+    public function toolbar(array $items): self
+    {
+        $this->toolbar = $items;
+        return $this;
+    }
+
+    /**
+     * Set the editor height.
+     * @param int $pixels
+     * @return $this
+     */
+    public function height(int $pixels): self
+    {
+        $this->height = $pixels;
+        return $this;
+    }
+
+    /**
      * Enable Media Browser.
      * @param bool $enabled
      * @return $this
@@ -39,7 +100,6 @@ class CkEditor extends Field
     public function mediaBrowser(bool $enabled = true): self
     {
         $this->mediaBrowser = $enabled;
-
         return $this;
     }
 
@@ -51,7 +111,6 @@ class CkEditor extends Field
     public function linkBrowser(bool $enabled = true): self
     {
         $this->linkBrowser = $enabled;
-
         return $this;
     }
 
@@ -63,7 +122,6 @@ class CkEditor extends Field
     public function snippets(array $snippets): self
     {
         $this->snippets = $snippets;
-
         return $this;
     }
 
@@ -77,6 +135,8 @@ class CkEditor extends Field
             'mediaBrowser' => $this->mediaBrowser,
             'linkBrowser'  => $this->linkBrowser,
             'snippets'     => $this->snippets,
+            'toolbar'      => $this->toolbar,
+            'height'      => $this->height,
             'shouldShow'   => $this->shouldBeExpanded(),
         ]);
     }

@@ -6,7 +6,7 @@
 <template>
     <panel-item :field="field">
         <template slot="value">
-            <div class="py-6 ckeditor_content">
+            <div class="ckeditor_content">
                 <excerpt
                     :content="field.value"
                     :should-show="field.shouldShow"

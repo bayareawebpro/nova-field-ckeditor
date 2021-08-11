@@ -23,6 +23,7 @@ export default {
             'mediaEmbed',
             'mediaBrowser',
             'insertSnippet',
+            'htmlEmbed',
             '|',
             'undo',
             'redo'

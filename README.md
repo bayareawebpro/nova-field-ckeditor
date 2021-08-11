@@ -46,11 +46,39 @@ CkEditor::make('Content')
     ->hideFromIndex()
     ->mediaBrowser()
     ->linkBrowser()
+    ->height(60)
     ->stacked()
     ->snippets([
         ['name' =>'Cool Snippet1', 'html'=> view('snippets.1')->render()],
         ['name' =>'Cool Snippet2', 'html'=> view('snippets.2')->render()],
         ['name' =>'Cool Snippet3', 'html'=> view('snippets.3')->render()],
+    ])
+    ->toolbar([
+        'heading',
+        'horizontalLine',
+        '|',
+        'link',
+        'linkBrowser',
+        '|',
+        'bold',
+        'italic',
+        'alignment',
+        'subscript',
+        'superscript',
+        'underline',
+        'strikethrough',
+        '|',
+        'blockQuote',
+        'bulletedList',
+        'numberedList',
+        '|',
+        'insertTable',
+        'mediaEmbed',
+        'mediaBrowser',
+        'insertSnippet',
+        '|',
+        'undo',
+        'redo'
     ]),
 ```
 

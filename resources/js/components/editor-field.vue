@@ -1,13 +1,13 @@
 <script>
     import CkEditor from '../ckeditor/ckeditor'
+    import SnippetBrowser from "./snippet-browser"
     import MediaBrowser from "./media-browser"
     import LinkBrowser from "./link-browser"
     import {FormField, HandlesValidationErrors} from 'laravel-nova'
-    import SnippetBrowser from "./snippet-browser"
     export default {
         components: {SnippetBrowser, LinkBrowser,MediaBrowser},
         mixins: [FormField, HandlesValidationErrors],
-        props: ['resourceName', 'resourceId', 'field'],
+        props: ['resourceName', 'resourceId', 'field','toolbar'],
         methods: {
             setInitialValue() {
                 this.value = this.field.value || ''
@@ -33,21 +33,28 @@
                 linkBrowser: this.field.linkBrowser,
                 mediaBrowser: this.field.mediaBrowser,
                 snippetBrowser: !!this.field.snippetBrowser,
+                toolbar:{items: this.field.toolbar}
             }).then((editor) => {
                     const {editing, model} = this.$options.editor = editor
                     //Prevent QuestionMark & Slash from triggering Nova Search.
-                    editing.view.document.on('keydown', this.handleEditorEvents, {priority: 'highest' })
+                    editing.view.document.on('keydown', this.handleEditorEvents, {
+                        priority: 'highest'
+                    })
                     //Sync Model Changes to VueModel.
-                    model.document.on('change', this.handleEditorSync, {priority: 'lowest'})
+                    model.document.on('change', this.handleEditorSync, {
+                        priority: 'lowest'
+                    })
+                    // Set the height of the editor when editing.
+                    editor.ui.view.editable.element.style.height = `${this.field.height}px`;
                 })
-                .catch((e) => this.$toasted.show(this.__(':message', e),{ type: 'error' }))
+                .catch((e) => this.$toasted.show(e.toString(),{ type: 'error' }))
         },
         beforeDestroy() {
             if (this.$options.editor) {
                 this.$options.editor
                     .destroy()
                     .then(() => this.$options.editor = null)
-                    .catch((e) =>this.$toasted.show(this.__(':message', e),{ type: 'error' }))
+                    .catch((e) =>this.$toasted.show(e.toString(),{ type: 'error' }))
             }
         },
     }
@@ -61,7 +68,7 @@
                 :class="errorClasses"
                 class="hidden"
                 :value="value"
-            ></textarea>
+            />
             <link-browser :fieldName="field.name"/>
             <media-browser :fieldName="field.name" :multiple="true"/>
             <snippet-browser :fieldName="field.name" :snippets="field.snippetBrowser"/>
@@ -69,6 +76,8 @@
     </default-field>
 </template>
 <style lang="sass">
+    .ck-content.ck-editor__editable
+        resize: vertical
     .ck.ck-reset.ck-editor
         .ck.ck-toolbar
             border-radius: 10px 10px 0 0
