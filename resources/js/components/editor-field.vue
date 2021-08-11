@@ -45,7 +45,9 @@
                         priority: 'lowest'
                     })
                     // Set the height of the editor when editing.
-                    editor.ui.view.editable.element.style.height = `${this.field.height}px`;
+                    if(this.value && this.value.length > 1){
+                        editor.ui.view.editable.element.style.height = `${this.field.height}px`;
+                    }
                 })
                 .catch((e) => this.$toasted.show(e.toString(),{ type: 'error' }))
         },
