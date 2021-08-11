@@ -27,11 +27,8 @@ export default {
     methods: {
         onKeyDownEsc(event){
             if (event.key === "Escape") {
-                this.toggle()
+                this.$emit('input',false)
             }
-        },
-        toggle(isVisible = null) {
-            this.$emit('input',  typeof isVisible === 'boolean' ? isVisible : !this.value)
         },
         hasSlot(slot) {
             return !!this.$slots[slot]
@@ -52,12 +49,12 @@ export default {
                 <div class="flex-1 px-1 items-center">
                     <slot name="header"></slot>
                 </div>
-                <div class="flex-0 flex items-center" :class="{'pr-2': title}">
-                    <a @click.prevent="toggle(false)" class="h-8 w-8 m-0 cursor-pointer text-white">
+                <div class="flex-0 flex items-center pr-2">
+                    <button @click.prevent="$emit('input',false)" class="h-8 w-8 m-0 cursor-pointer text-white">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill="currentColor" d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
                         </svg>
-                    </a>
+                    </button>
                 </div>
             </div>
             <div class="flex-1 w-full bg-grad-sidebar" style="overflow-y: scroll">

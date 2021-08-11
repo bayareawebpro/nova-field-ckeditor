@@ -37,9 +37,9 @@ import MediaEmbed from '@ckeditor/ckeditor5-media-embed/src/mediaembed'
 import HtmlEmbed from '@ckeditor/ckeditor5-html-embed/src/htmlembed'
 import ImageTextAlternative from '@ckeditor/ckeditor5-image/src/imagetextalternative'
 
+import LinkBrowser from './plugins/LinkBrowser'
 import MediaBrowser from './plugins/MediaBrowser'
-import InsertSnippet from './plugins/InsertSnippet'
-import LinkBrowser from "./plugins/LinkBrowser"
+import SnippetBrowser from './plugins/SnippetBrowser'
 // Extend the Base Class
 export default class CkEditor extends ClassicEditorBase {
 
@@ -54,6 +54,7 @@ export default class CkEditor extends ClassicEditorBase {
             ...require('./config/table').default,
             ...require('./config/toolbar').default,
             ...require('./config/headings').default,
+            ...require('./config/html').default,
         }
     }
 
@@ -62,7 +63,7 @@ export default class CkEditor extends ClassicEditorBase {
         return [
             MediaBrowser,
             LinkBrowser,
-            InsertSnippet,
+            SnippetBrowser,
             Essentials,
             Link,
             List,

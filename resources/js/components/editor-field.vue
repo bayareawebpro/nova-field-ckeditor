@@ -29,10 +29,10 @@
         },
         mounted() {
             CkEditor.create(this.$refs.editor,{
-                fieldName: this.field.name,
+                attribute: this.field.attribute,
                 linkBrowser: this.field.linkBrowser,
                 mediaBrowser: this.field.mediaBrowser,
-                snippetBrowser: !!this.field.snippetBrowser,
+                snippetBrowser: this.field.snippetBrowser,
                 toolbar:{items: this.field.toolbar}
             }).then((editor) => {
                     const {editing, model} = this.$options.editor = editor
@@ -64,14 +64,22 @@
         <template slot="field">
             <textarea
                 ref="editor"
-                :id="field.name"
+                :id="field.attribute"
                 :class="errorClasses"
                 class="hidden"
                 :value="value"
             />
-            <link-browser :fieldName="field.name"/>
-            <media-browser :fieldName="field.name" :multiple="true"/>
-            <snippet-browser :fieldName="field.name" :snippets="field.snippetBrowser"/>
+            <link-browser
+                :attribute="field.attribute"
+            />
+            <media-browser
+                :attribute="field.attribute"
+                :multiple="true"
+            />
+            <snippet-browser
+                :attribute="field.attribute"
+                :snippets="field.snippetBrowser"
+            />
         </template>
     </default-field>
 </template>

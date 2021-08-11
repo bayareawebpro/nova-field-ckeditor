@@ -10,7 +10,7 @@
         components: {loading, modal},
         mixins: [interactsWithResources],
         props: {
-            fieldName: {default: () => 'content'},
+            attribute: {default: () => 'content'},
             multiple: {default: () => true},
         },
         data: () => ({
@@ -27,7 +27,7 @@
         }),
         computed: {
             event() {
-                return `ckeditor:media:${this.fieldName}`
+                return `ckeditor:media:${this.attribute}`
             }
         },
         methods: {
@@ -141,17 +141,19 @@
              * Close the Modal
              * If the user focuses another instance of the editor, close the modal.
              */
-            close() {
-                this.isVisible = false
+            close(field) {
+                if(field !== this.attribute){
+                    this.isVisible = false
+                }
             },
         },
         created() {
             this.$options.spinner = spinner
-            Nova.$on(`${this.event}`, this.show)
+            Nova.$on(this.event, this.show)
             Nova.$on(`ckeditor:focused`, this.close)
         },
         beforeDestroy() {
-            Nova.$off(`${this.event}`, this.show)
+            Nova.$off(this.event, this.show)
             Nova.$off(`ckeditor:focused`, this.close)
         }
     }
@@ -163,6 +165,7 @@
         v-model="isVisible">
         <template v-slot:header>
             <div class="pl-6 flex -mx-2">
+                {{ event }}
                 <div class="p-2">
                     <input
                         type="search"
@@ -285,6 +288,6 @@
     .mediaItem-enter *,
     .mediaItem-leave-active *
         opacity: 0
-        transition: all 300ms ease-in-out !important
+        transition: all 100ms ease-in-out !important
         transform: scale(0)
 </style>

@@ -10,7 +10,7 @@ export default {
     data: ()=>({preview: null}),
     computed: {
         event(){
-            return `ckeditor:media:${this.field.name}`
+            return `ckeditor:media:${this.field.attribute}`
         },
     },
     methods: {
@@ -81,7 +81,7 @@ export default {
             <p v-if="hasError" class="my-2 text-danger">
                 {{ firstError }}
             </p>
-            <media-browser :fieldName="field.name" :multiple="false"/>
+            <media-browser :attribute="field.attribute" :multiple="false"/>
         </template>
     </default-field>
 </template>

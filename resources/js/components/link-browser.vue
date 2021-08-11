@@ -7,7 +7,7 @@
         name: "link-browser",
         mixins:[interactsWithResources],
         components: {loading, modal},
-        props: {fieldName: {default: ()=>'content'}},
+        props: {attribute: {default: ()=>'content'}},
         data() {
             return {
                 searchTerm: '',
@@ -18,7 +18,7 @@
         },
         computed:{
             event(){
-                return `ckeditor:link:${this.fieldName}`
+                return `ckeditor:link:${this.attribute}`
             },
         },
         methods: {
@@ -59,16 +59,15 @@
              * @return void
              */
             open() {
-                this.isVisible = !this.isVisible
+                this.isVisible = true
                 this.$nextTick(()=>this.$refs.input.focus())
-                //setTimeout(()=>this.fetch())
             },
             /**
              * Close the Modal
              * If the user focuses another instance of the editor, close the modal.
              */
             close(field) {
-                if(field !== this.fieldName){
+                if(field !== this.attribute){
                     this.isVisible = false
                 }
             },

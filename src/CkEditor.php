@@ -50,8 +50,9 @@ class CkEditor extends Field
         '|',
         'insertTable',
         'mediaBrowser',
-        'insertSnippet',
         'mediaEmbed',
+        '|',
+        'snippetBrowser',
         'htmlEmbed',
         '|',
         'undo',
@@ -68,7 +69,7 @@ class CkEditor extends Field
      * The snippets to be displayed in the snippet browser.
      * @var array
      */
-    public array $snippets = [];
+    public array $snippetBrowser = [];
 
     /**
      * Set the toolbar item layout.
@@ -121,7 +122,7 @@ class CkEditor extends Field
      */
     public function snippets(array $snippets): self
     {
-        $this->snippets = $snippets;
+        $this->snippetBrowser = $snippets;
         return $this;
     }
 
@@ -132,12 +133,12 @@ class CkEditor extends Field
     public function jsonSerialize(): array
     {
         return array_merge(parent::jsonSerialize(), [
-            'mediaBrowser' => $this->mediaBrowser,
-            'linkBrowser'  => $this->linkBrowser,
-            'snippets'     => $this->snippets,
-            'toolbar'      => $this->toolbar,
-            'height'      => $this->height,
-            'shouldShow'   => $this->shouldBeExpanded(),
+            'snippetBrowser' => $this->snippetBrowser,
+            'mediaBrowser'   => $this->mediaBrowser,
+            'linkBrowser'    => $this->linkBrowser,
+            'toolbar'        => $this->toolbar,
+            'height'         => $this->height,
+            'shouldShow'     => $this->shouldBeExpanded(),
         ]);
     }
 }

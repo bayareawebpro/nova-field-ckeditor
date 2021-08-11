@@ -32,10 +32,10 @@ export default class LinkBrowser{
         this.ui.componentFactory.add('linkBrowser',this.createButton.bind(this))
         this.ui.focusTracker.on( 'change:isFocused', ( evt, name, value ) => {
             if(value === true){
-                Nova.$emit(`ckeditor:focused`, this.fieldName)
+                Nova.$emit(`ckeditor:focused`, this.attribute)
             }
         });
-        Nova.$on(`ckeditor:link:${this.fieldName}:write`, this.writeContent.bind(this))
+        Nova.$on(`ckeditor:link:${this.attribute}:write`, this.writeContent.bind(this))
     }
 
     /**
@@ -44,7 +44,7 @@ export default class LinkBrowser{
      * @return void
      */
     destroy() {
-        Nova.$off(`ckeditor:link:${this.fieldName}:write`, this.writeContent.bind(this))
+        Nova.$off(`ckeditor:link:${this.attribute}:write`, this.writeContent.bind(this))
     }
 
     /**
@@ -74,7 +74,7 @@ export default class LinkBrowser{
      * Launch the Link Browser.
      */
     openModal(){
-        Nova.$emit(`ckeditor:link:${this.fieldName}`)
+        Nova.$emit(`ckeditor:link:${this.attribute}`)
     }
 
     /**
@@ -111,10 +111,10 @@ export default class LinkBrowser{
 
     /**
      * Get the Nova field name.
-     * @return {boolean}
+     * @return {String}
      */
-    get fieldName(){
-        return this.config.get('fieldName')
+    get attribute(){
+        return this.config.get('attribute')
     }
 
     /**

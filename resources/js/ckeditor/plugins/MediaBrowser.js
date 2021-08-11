@@ -27,7 +27,7 @@ export default class MediaBrowser{
      * @return void
      */
     init() {
-        Nova.$on(`ckeditor:media:${this.fieldName}:write`, this.writeContent.bind(this))
+        Nova.$on(`ckeditor:media:${this.attribute}:write`, this.writeContent.bind(this))
         this.ui.componentFactory.add('mediaBrowser', this.createButton.bind(this))
     }
 
@@ -37,7 +37,7 @@ export default class MediaBrowser{
      * @return void
      */
     destroy() {
-        Nova.$off(`ckeditor:media:${this.fieldName}:write`, this.writeContent.bind(this))
+        Nova.$off(`ckeditor:media:${this.attribute}:write`, this.writeContent.bind(this))
     }
 
     /**
@@ -67,7 +67,7 @@ export default class MediaBrowser{
      */
     openModal(){
         this.saveSelection()
-        Nova.$emit(`ckeditor:media:${this.fieldName}`, this.isEnabled)
+        Nova.$emit(`ckeditor:media:${this.attribute}`)
     }
 
     /**
@@ -86,7 +86,7 @@ export default class MediaBrowser{
 
     /**
      * Is the plugin enabled?
-     * @return {boolean}
+     * @return {Boolean}
      */
     get isEnabled(){
         return this.config.get('mediaBrowser')
@@ -94,17 +94,17 @@ export default class MediaBrowser{
 
     /**
      * Get the Nova field name.
-     * @return {boolean}
+     * @return {String}
      */
-    get fieldName(){
-        return this.config.get('fieldName')
+    get attribute(){
+        return this.config.get('attribute')
     }
 
     /**
      * Is Image Element
-     * @return {boolean}
+     * @return {Boolean}
      */
-    hasSelectedWidget(){
+    get hasSelectedWidget(){
         return (this.selected && this.selected.name === 'image')
     }
 
@@ -114,23 +114,13 @@ export default class MediaBrowser{
      * @return void
      */
     writeContent(items){
-
-        this.model.change(writer => {
-            /**
-             * If an image is selected, we'll update it by plucking the first item.
-             */
-            if(this.hasSelectedWidget()) {
-                const firstItem = items.shift()
-                writer.setAttributes({src: firstItem.url}, this.selected)
-                this.clearSelection()
-            }
-
-            /**
-             * Then append each remaining item to the document.
-             */
-            items.forEach((item)=>{
-                this.model.insertContent(
-                    writer.createElement('image', {src: item.url}),
+        this.model.change((writer) => {
+            items.forEach(({file, url}, index) => {
+                if(index === 0 && this.hasSelectedWidget) {
+                    return writer.setAttributes({src: url, alt: file, imageCaption: file}, selected)
+                }
+                return this.model.insertContent(
+                    writer.createElement('imageBlock', {src: url, alt: file, imageCaption: file}),
                     this.model.document.selection.getLastPosition()
                 )
             })
