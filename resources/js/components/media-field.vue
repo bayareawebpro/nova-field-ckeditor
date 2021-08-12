@@ -55,7 +55,7 @@ export default {
                 <v-lazy-image
                     :src="preview"
                     :src-placeholder="$options.spinner"
-                    class="shadow-md rounded m-2 block"
+                    class="shadow-md rounded mb-4 block"
                     :style="{
                         width: 'auto',
                         height: 'auto',

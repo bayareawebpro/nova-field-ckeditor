@@ -17,10 +17,10 @@ class FeaturedMedia extends Field
     public $meta = [
         'index_width' => 100,
         'index_height' => 100,
-        'detail_width' => 800,
-        'detail_height' => 400,
-        'attachment_width' => 600,
-        'attachment_height' => 400,
+        'form_width' => 800,
+        'form_height' => 600,
+        'detail_width' => 1600,
+        'detail_height' => 1200,
     ];
 
     /**
@@ -60,8 +60,8 @@ class FeaturedMedia extends Field
     public function sizeOnForms(int $width,int $height): self
     {
         return $this->withMeta([
-            'detail_width' => $width,
-            'detail_height' => $height,
+            'form_width' => $width,
+            'form_height' => $height,
         ]);
     }
 }
