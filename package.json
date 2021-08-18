@@ -44,5 +44,6 @@
         "v-lazy-image": "^1.4.0",
         "vue": "^2.6.11",
         "vue-template-compiler": "^2.6.11"
-    }
+    },
+    "version": "0.0.1"
 }
