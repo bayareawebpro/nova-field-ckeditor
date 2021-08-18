@@ -165,7 +165,6 @@
         v-model="isVisible">
         <template v-slot:header>
             <div class="pl-6 flex -mx-2">
-                {{ event }}
                 <div class="p-2">
                     <input
                         type="search"
