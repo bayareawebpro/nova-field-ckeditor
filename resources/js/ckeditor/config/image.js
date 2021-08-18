@@ -15,10 +15,10 @@ export default {
             'imageTextAlternative',
         ],
         styles: [
+            'full',
             'alignLeft',
             'alignCenter',
             'alignRight',
-            'full',
         ]
     }
 }

@@ -10,7 +10,7 @@
         components: {loading, modal},
         mixins: [interactsWithResources],
         props: {
-            attribute: {default: () => 'content'},
+            fieldKey: {default: () => 'content'},
             multiple: {default: () => true},
         },
         data: () => ({
@@ -27,7 +27,7 @@
         }),
         computed: {
             event() {
-                return `ckeditor:media:${this.attribute}`
+                return `ckeditor:media:${this.fieldKey}`
             }
         },
         methods: {
@@ -141,8 +141,8 @@
              * Close the Modal
              * If the user focuses another instance of the editor, close the modal.
              */
-            close(field) {
-                if(field !== this.attribute){
+            close(fieldKey) {
+                if(fieldKey !== this.fieldKey){
                     this.isVisible = false
                 }
             },

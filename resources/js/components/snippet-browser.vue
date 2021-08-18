@@ -5,7 +5,7 @@ export default {
     name: "snippet-browser",
     components: {modal},
     props: {
-        attribute: {default: () => 'content'},
+        fieldKey: {default: () => 'content'},
         snippets: {default: () => ([])},
     },
     data: () => ({
@@ -14,7 +14,7 @@ export default {
     }),
     computed: {
         event() {
-            return `ckeditor:snippets:${this.attribute}`
+            return `ckeditor:snippets:${this.fieldKey}`
         }
     },
     methods: {
@@ -37,8 +37,8 @@ export default {
          * Close the Modal
          * If the user focuses another instance of the editor, close the modal.
          */
-        close(field) {
-            if (field !== this.attribute) {
+        close(fieldKey) {
+            if (fieldKey !== this.fieldKey) {
                 this.isVisible = false
             }
         },

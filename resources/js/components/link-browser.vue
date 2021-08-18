@@ -7,7 +7,7 @@
         name: "link-browser",
         mixins:[interactsWithResources],
         components: {loading, modal},
-        props: {attribute: {default: ()=>'content'}},
+        props: {fieldKey: {default: ()=>'content'}},
         data() {
             return {
                 searchTerm: '',
@@ -18,7 +18,7 @@
         },
         computed:{
             event(){
-                return `ckeditor:link:${this.attribute}`
+                return `ckeditor:link:${this.fieldKey}`
             },
         },
         methods: {
@@ -66,8 +66,8 @@
              * Close the Modal
              * If the user focuses another instance of the editor, close the modal.
              */
-            close(field) {
-                if(field !== this.attribute){
+            close(fieldKey) {
+                if(fieldKey !== this.fieldKey){
                     this.isVisible = false
                 }
             },
@@ -75,7 +75,6 @@
         created() {
             Nova.$on(this.event, this.open)
             Nova.$on(`ckeditor:focused`, this.close)
-            //this.toggle()
         },
         beforeDestroy() {
             Nova.$off(this.event, this.open)

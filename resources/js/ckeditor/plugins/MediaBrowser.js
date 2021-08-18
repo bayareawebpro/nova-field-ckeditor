@@ -67,6 +67,7 @@ export default class MediaBrowser{
      */
     openModal(){
         this.saveSelection()
+
         Nova.$emit(`ckeditor:media:${this.attribute}`)
     }
 
@@ -105,7 +106,7 @@ export default class MediaBrowser{
      * @return {Boolean}
      */
     get hasSelectedWidget(){
-        return (this.selected && this.selected.name === 'image')
+        return (this.selected && this.selected.name === 'imageBlock')
     }
 
     /**
@@ -117,7 +118,7 @@ export default class MediaBrowser{
         this.model.change((writer) => {
             items.forEach(({file, url}, index) => {
                 if(index === 0 && this.hasSelectedWidget) {
-                    return writer.setAttributes({src: url, alt: file, imageCaption: file}, selected)
+                    return writer.setAttributes({src: url, alt: file, imageCaption: file}, this.selected)
                 }
                 return this.model.insertContent(
                     writer.createElement('imageBlock', {src: url, alt: file, imageCaption: file}),
@@ -125,6 +126,7 @@ export default class MediaBrowser{
                 )
             })
         })
+        this.clearSelection()
     }
 
     /**

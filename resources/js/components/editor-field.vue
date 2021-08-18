@@ -3,10 +3,11 @@
     import SnippetBrowser from "./snippet-browser"
     import MediaBrowser from "./media-browser"
     import LinkBrowser from "./link-browser"
+    import HasUUID from "./mixins/HasUUID"
     import {FormField, HandlesValidationErrors} from 'laravel-nova'
     export default {
         components: {SnippetBrowser, LinkBrowser,MediaBrowser},
-        mixins: [FormField, HandlesValidationErrors],
+        mixins: [FormField, HandlesValidationErrors,HasUUID],
         props: ['resourceName', 'resourceId', 'field','toolbar'],
         methods: {
             setInitialValue() {
@@ -25,17 +26,21 @@
             },
             handleEditorSync(){
                 this.handleChange(this.$options.editor.getData())
-            }
+            },
+        },
+        created() {
+            this.$options.uuid = this.uuid()
         },
         mounted() {
             CkEditor.create(this.$refs.editor,{
-                attribute: this.field.attribute,
+                attribute: this.$options.uuid,
                 linkBrowser: this.field.linkBrowser,
                 mediaBrowser: this.field.mediaBrowser,
                 snippetBrowser: this.field.snippetBrowser,
                 toolbar:{items: this.field.toolbar}
             }).then((editor) => {
                     const {editing, model} = this.$options.editor = editor
+
                     //Prevent QuestionMark & Slash from triggering Nova Search.
                     editing.view.document.on('keydown', this.handleEditorEvents, {
                         priority: 'highest'
@@ -72,14 +77,15 @@
                 :value="value"
             />
             <link-browser
-                :attribute="field.attribute"
+                :field-key="$options.uuid"
             />
             <media-browser
-                :attribute="field.attribute"
+                @select="$options.editor.execute('mediaBrowser', $event)"
+                :field-key="$options.uuid"
                 :multiple="true"
             />
             <snippet-browser
-                :attribute="field.attribute"
+                :field-key="$options.uuid"
                 :snippets="field.snippetBrowser"
             />
         </template>

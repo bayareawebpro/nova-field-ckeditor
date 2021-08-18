@@ -1,16 +1,17 @@
 <script>
 import spinner from './../assets/spinner'
 import MediaBrowser from "./media-browser"
+import HasUUID from "./mixins/HasUUID"
 import interactsWithResources from "./mixins/interactsWithResources"
 import { FormField, HandlesValidationErrors } from 'laravel-nova'
 export default {
     props: ['resourceName', 'resourceId', 'field'],
-    mixins: [FormField, HandlesValidationErrors,interactsWithResources],
+    mixins: [FormField, HandlesValidationErrors,interactsWithResources, HasUUID],
     components: {MediaBrowser},
     data: ()=>({preview: null}),
     computed: {
         event(){
-            return `ckeditor:media:${this.field.attribute}`
+            return `ckeditor:media:${this.$options.uuid}`
         },
     },
     methods: {
@@ -37,10 +38,9 @@ export default {
             Nova.$emit(this.event)
         },
     },
-    beforeCreate() {
-        this.$options.spinner = spinner
-    },
     created(){
+        this.$options.spinner = spinner
+        this.$options.uuid = this.uuid()
         Nova.$on(`${this.event}:write`, this.handleChange)
     },
     beforeDestroy(){
@@ -81,7 +81,7 @@ export default {
             <p v-if="hasError" class="my-2 text-danger">
                 {{ firstError }}
             </p>
-            <media-browser :attribute="field.attribute" :multiple="false"/>
+            <media-browser :field-key="$options.uuid" :multiple="false"/>
         </template>
     </default-field>
 </template>
