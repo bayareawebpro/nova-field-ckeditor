@@ -13,7 +13,7 @@
     <span class="p-2">&nbsp;
         <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
              class="tronFilter" :style="{filter: `drop-shadow(0 0px 3px ${color})`}">
-            <circle cx="50" cy="50" r="45" :stroke="color"/>
+            <circle cx="50" cy="50" r="45" stroke="currentColor"/>
         </svg>
     </span>
 </template>

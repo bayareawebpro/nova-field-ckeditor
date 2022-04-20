@@ -32,7 +32,6 @@ class FieldServiceProvider extends ServiceProvider
             __DIR__.'/../resources/sass/figures.sass' => resource_path('sass/figures.sass'),
             __DIR__.'/../resources/sass/blocks.sass' => resource_path('sass/blocks.sass'),
         ], 'nova-ckeditor-stubs');
-
     }
 
     /**

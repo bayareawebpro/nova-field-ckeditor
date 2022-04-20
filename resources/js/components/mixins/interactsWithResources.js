@@ -5,7 +5,7 @@ export default {
          * @param resource {Object}
          * @return {Object}
          */
-        resourceToObject({fields}) {
+        resourceToObject({id, fields}) {
             return fields.reduce((obj, item) => {
                 obj[item.attribute] = item.value
                 if(item.hasOwnProperty('thumbnailUrl')){
@@ -17,7 +17,7 @@ export default {
                     obj.meta = item.meta
                 }
                 return obj
-            }, {})
+            }, {id: id.value})
         },
         /**
          * Fetch Resource Entity
@@ -63,7 +63,7 @@ export default {
          * @return void
          */
         handleResourceError(error){
-            this.$toasted.show(this.__(':message',{message:error}),{
+            Nova.error(this.__(':message',{message:error}),{
                 type: 'error'
             })
         }

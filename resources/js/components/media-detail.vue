@@ -1,23 +1,31 @@
 <script>
-    import IndexView from './media-index'
+import interactsWithResources from "./mixins/interactsWithResources"
     export default {
-        props: ['resource', 'resourceName', 'resourceId', 'field'],
-        extends: IndexView,
+        props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
+        mixins: [interactsWithResources],
+        data: ()=>({preview: null}),
+        created() {
+            if(this.field.value){
+                this.fetchResourceEntity('media',this.field.value).then(({url})=>{
+                    this.preview = url
+                })
+            }
+        },
     }
 </script>
 <template>
     <panel-item :field="field">
-        <template slot="value">
-            <v-lazy-image
+        <template #value>
+            <div
                 v-if="preview"
-                :src="preview"
-                :src-placeholder="$options.spinner"
-                class="shadow-md rounded m-2 block"
+                class="shadow-md rounded mb-4 block"
                 :style="{
-                    width: 'auto',
-                    height: 'auto',
-                    maxWidth: `${field.defail_width}px`,
-                    maxHeight: `${field.defail_height}px`
+                    backgroundImage: `url(${preview})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center center',
+                    width: `${field.detail_width}px`,
+                    height: `${field.detail_height}px`,
+                    maxWidth: '100%',
                 }"
             />
         </template>

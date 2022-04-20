@@ -5,7 +5,7 @@
 </script>
 <template>
     <panel-item :field="field">
-        <template slot="value">
+        <template #value>
             <div class="ckeditor_content">
                 <excerpt
                     :content="field.value"
@@ -18,7 +18,7 @@
 </template>
 <style lang="sass">
     .ckeditor_content
-        @import "./../../sass/figures.sass"
-        @import "./../../sass/blocks.sass"
+        @import "./../../sass/figures"
+        @import "./../../sass/blocks"
 </style>
 

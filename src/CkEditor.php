@@ -30,31 +30,24 @@ class CkEditor extends Field
      * @var array $toolbar
      */
     public array $toolbar = [
+        'links',
+        'attachments',
         'heading',
-        'horizontalLine',
-        '|',
+        'alignment',
         'link',
-        'linkBrowser',
-        '|',
         'bold',
         'italic',
-        'alignment',
         'subscript',
         'superscript',
         'underline',
         'strikethrough',
-        '|',
         'blockQuote',
         'bulletedList',
         'numberedList',
-        '|',
+        'horizontalLine',
         'insertTable',
-        'mediaBrowser',
         'mediaEmbed',
-        '|',
-        'snippetBrowser',
         'htmlEmbed',
-        '|',
         'undo',
         'redo'
     ];
@@ -139,6 +132,7 @@ class CkEditor extends Field
             'toolbar'        => $this->toolbar,
             'height'         => $this->height,
             'shouldShow'     => $this->shouldBeExpanded(),
+            'asHtml' => true
         ]);
     }
 }

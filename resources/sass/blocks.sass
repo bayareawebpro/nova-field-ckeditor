@@ -1,17 +1,58 @@
 *
-    font-family: Arial, Helvetica, sans-serif !important
-p,ol,ul,li,blockquote
-    font-size: 13pt !important
-    line-height: 1.6 !important
+    font: 16px/16px Arial, Helvetica, sans-serif
+
 h1,h2,h3,h4,h5,h6,p,ol,ul,blockquote
     margin: 15px 0
-h1,h2,h3,h4,h5,h6
+
+h1,h2,h3,h4,h5,h6,hr
     clear-after: both
+
+h1,h1 *
+    font-size: 46px
+    line-height: 46px
+h2,h2 *
+    font-size: 38px
+    line-height: 38px
+h3,h3 *
+    font-size: 32px
+    line-height: 32px
+h4,h4 *
+    font-size: 26px
+    line-height: 26px
+h5,h5 *
+    font-size: 22px
+    line-height: 22px
+h6,h6 *
+    font-size: 18px
+    line-height: 18px
+
+p,ol,ul,li,blockquote
+    font-size: 16px
+    line-height: 26px
+ul
+    list-style: disc
+    padding: 0 0 0 20px
+ol
+    list-style: decimal
+    padding: 0 0 0 20px
+
+blockquote
+    background-color: transparent
+    border-left: 5px solid rgb(var(--colors-gray-600, black))
+    border-radius: 0
+    padding: 0 0 0 25px
+    margin: 20px 0 20px 20px
+
+strong
+    font-weight: bold
+i
+    font-style: italic
+a
+    color: rgb(var(--colors-blue-500, blue)) !important
 hr
-    background-color: #eee
-    border: none
-    height: 5px
-    padding: 0
-    margin: 20px 0
+    background-color: rgb(var(--colors-gray-500, black))
     display: block
-    clear: both
+    margin: 20px 0
+    border: none
+    height: 3px
+    padding: 0

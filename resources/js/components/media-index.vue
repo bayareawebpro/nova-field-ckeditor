@@ -1,13 +1,9 @@
 <script>
-    import spinner from './../assets/spinner'
     import interactsWithResources from "./mixins/interactsWithResources"
     export default {
         props: ['resourceName', 'field'],
         mixins: [interactsWithResources],
         data: ()=>({preview: null}),
-        beforeCreate() {
-            this.$options.spinner = spinner
-        },
         created() {
             if(this.field.value){
                 this.fetchResourceEntity('media',this.field.value).then(({url})=>{
@@ -19,16 +15,15 @@
 </script>
 <template>
     <div>
-        <v-lazy-image
+        <div
             v-if="preview"
-            :src="preview"
-            :src-placeholder="$options.spinner"
-            class="shadow-md rounded m-2 block"
+            class="shadow-md rounded mb-4 block"
             :style="{
-                width: 'auto',
-                height: 'auto',
-                maxWidth: `${field.index_width}px`,
-                maxHeight: `${field.index_height}px`
+                backgroundImage: `url(${preview})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center center',
+                width: `${field.index_width}px`,
+                height: `${field.index_height}px`
             }"
         />
     </div>

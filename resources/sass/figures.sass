@@ -1,3 +1,4 @@
+// Figures & Images
 figure.media,
 figure.image
     background-color: white
@@ -61,63 +62,44 @@ figure figcaption
         margin-left: auto
         margin-right: auto
         float: none
-//
-// Figure Media / Videos
-//
+
+// Figure Videos
 figure.media
     width: auto
     height: auto
     display: block
-    .embed-responsive
-        position: relative
-        display: block
-        width: 100%
-        padding: 0
+    div.aspect-w-16.aspect-h-9
         overflow: hidden
-        &::before
-            display: block
-            content: ""
-    .embed-responsive-16by9
-        &::before
-            padding-top: calc(900 / 1600 * 100%)
-        .embed-responsive-item, iframe
+        position: relative
+        padding-bottom: 56.25%
+        height: 0
+        iframe
             position: absolute
             top: 0
-            bottom: 0
             left: 0
             width: 100%
             height: 100%
-            border: 0
-//
+
 // Figure Tables
-//
-figure.table
+figure.table:not(.ck-widget)
     display: block
     width: 100%
+    margin: 20px 0
     overflow-x: auto
-    -webkit-overflow-scrolling: touch
-    -ms-overflow-style: -ms-autohiding-scrollbar
     table
-        margin-bottom: 0
-        background-color: white
         width: 100%
-        box-shadow: 0 0 15px #dee2e6
-        font-size-adjust: 0.5
-        thead
-            th
-                white-space: nowrap
-                line-height: 1em
-            th,td
-                border: 1px solid #dee2e6
-                white-space: pre-wrap
-                padding: 0.5em
-        tbody
-            th
-                white-space: nowrap
-            th,td
-                border: 1px solid #dee2e6
-                line-height: 1em
-                min-width: 50px
+        margin-bottom: 15px
+        th *,
+        td *
+            padding: 0
+            margin: 0
+        th,
+        td
+                border: 1px solid rgb(var(--colors-gray-500))
                 vertical-align: top
                 white-space: pre-wrap
                 padding: 0.5em
+        thead th,
+        tbody th
+                white-space: nowrap
+                background-color: rgba(var(--colors-gray-600), 0.2)

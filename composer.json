@@ -8,9 +8,9 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.0",
-        "intervention/image": "^2.5",
+        "intervention/image": "^2.7.1",
         "laravel/framework": "^8.0|^9.0",
-        "spatie/laravel-image-optimizer": "^1.6"
+        "spatie/laravel-image-optimizer": "^1.7"
     },
     "autoload": {
         "psr-4": {

@@ -4,12 +4,13 @@
 .ck.ck-reset.ck-editor
     .ck.ck-toolbar
         border-radius: 10px 10px 0 0
-    .ck-editor__editable_inline
-        @import "./figures.sass"
-        @import "./blocks.sass"
+    .ck.ck-content.ck-editor__editable
         border-radius: 0 0 10px 10px
         padding: 0 10px
         margin: 0
-.ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused
-    box-shadow: none !important
+        color: black
+        @import "./figures"
+        @import "./blocks"
+    .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused
+        box-shadow: none !important
 

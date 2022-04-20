@@ -15,12 +15,12 @@ class FeaturedMedia extends Field
      * @var array
      */
     public $meta = [
-        'index_width' => 100,
-        'index_height' => 100,
-        'form_width' => 800,
-        'form_height' => 600,
-        'detail_width' => 1600,
-        'detail_height' => 1200,
+        'index_width' => 60,
+        'index_height' => 60,
+        'form_width' => 640,
+        'form_height' => 320,
+        'detail_width' => 640,
+        'detail_height' => 320,
     ];
 
     /**

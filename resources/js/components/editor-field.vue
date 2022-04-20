@@ -1,107 +1,88 @@
 <script>
-    import CkEditor from '../ckeditor/ckeditor'
-    import SnippetBrowser from "./snippet-browser"
-    import MediaBrowser from "./media-browser"
-    import LinkBrowser from "./link-browser"
-    import HasUUID from "./mixins/HasUUID"
-    import {FormField, HandlesValidationErrors} from 'laravel-nova'
-    export default {
-        components: {SnippetBrowser, LinkBrowser,MediaBrowser},
-        mixins: [FormField, HandlesValidationErrors,HasUUID],
-        props: ['resourceName', 'resourceId', 'field','toolbar'],
-        methods: {
-            setInitialValue() {
-                this.value = this.field.value || ''
-            },
-            fill(formData) {
-                formData.append(this.field.attribute, this.value || '')
-            },
-            handleChange(value) {
-                this.value = value
-            },
-            handleEditorEvents(event, data){
-                if (['Tab', '/'].includes(data.key) || [191, 9].includes(data.keyCode)) {
-                    data.stopPropagation()
+import {component} from '@ckeditor/ckeditor5-vue';
+import {Editor} from '@bayareawebpro/ckeditor5-classic-custom'
+ import MediaBrowser from "./media-browser"
+import Attachments from '../ckeditor/plugins/Attachments'
+import Links from '../ckeditor/plugins/Links'
+import LinkBrowser from "./link-browser"
+// import SnippetBrowser from "./snippet-browser"
+// import Links from '../plugins/Links'
+import uuid from "./mixins/HasUUID"
+import {FormField, HandlesValidationErrors} from 'laravel-nova'
+export default {
+    mixins: [FormField, HandlesValidationErrors],
+    props: ['resourceName', 'resourceId', 'field'],
+    components:{
+        ckeditor: component,
+        MediaBrowser:MediaBrowser,
+        LinkBrowser:LinkBrowser,
+    },
+    data(){
+        return {
+            editor: Editor,
+            uuid: uuid(),
+            editorValue:'',
+            config: {
+                toolbar:this.field.toolbar,
+                makePlugins:{
+                    ...Attachments.make((insert) => {
+                        Nova.$emit(`ckeditor:focused`)
+                        Nova.$emit(`ckeditor:media:${this.uuid}`)
+                        Nova.$once(`ckeditor:media:${this.uuid}:write`, insert)
+                    }),
+                    ...Links.make((insert) => {
+                        Nova.$emit(`ckeditor:focused`)
+                        Nova.$emit(`ckeditor:link:${this.uuid}`)
+                        Nova.$off(`ckeditor:link:${this.uuid}:write`, insert)
+                        Nova.$on(`ckeditor:link:${this.uuid}:write`, insert)
+                    }),
                 }
             },
-            handleEditorSync(){
-                this.handleChange(this.$options.editor.getData())
-            },
+        }
+    },
+    methods: {
+        setInitialValue() {
+            this.value = this.field.value || ''
         },
-        created() {
-            this.$options.uuid = this.uuid()
+        prefill( editor ) {
+            this.editorValue = this.value;
         },
-        mounted() {
-            CkEditor.create(this.$refs.editor,{
-                attribute: this.$options.uuid,
-                linkBrowser: this.field.linkBrowser,
-                mediaBrowser: this.field.mediaBrowser,
-                snippetBrowser: this.field.snippetBrowser,
-                toolbar:{items: this.field.toolbar}
-            }).then((editor) => {
-                    const {editing, model} = this.$options.editor = editor
-
-                    //Prevent QuestionMark & Slash from triggering Nova Search.
-                    editing.view.document.on('keydown', this.handleEditorEvents, {
-                        priority: 'highest'
-                    })
-                    //Sync Model Changes to VueModel.
-                    model.document.on('change', this.handleEditorSync, {
-                        priority: 'lowest'
-                    })
-                    // Set the height of the editor when editing.
-                    if(this.value && this.value.length > 1){
-                        editor.ui.view.editable.element.style.height = `${this.field.height}px`;
-                    }
-                })
-                .catch((e) => this.$toasted.show(e.toString(),{ type: 'error' }))
-        },
-        beforeDestroy() {
-            if (this.$options.editor) {
-                this.$options.editor
-                    .destroy()
-                    .then(() => this.$options.editor = null)
-                    .catch((e) =>this.$toasted.show(e.toString(),{ type: 'error' }))
+    },
+    watch:{
+        editorValue:{
+            handler(){
+                this.value = this.editorValue;
             }
-        },
-    }
+        }
+    },
+}
 </script>
 <template>
-    <default-field :field="field" :errors="errors" :full-width-content="true">
-        <template slot="field">
-            <textarea
-                ref="editor"
-                :id="field.attribute"
-                :class="errorClasses"
-                class="hidden"
-                :value="value"
+    <DefaultField
+        :field="field"
+        :errors="errors"
+        :show-help-text="showHelpText">
+        <template #field>
+            <ckeditor
+                :editor="editor"
+                :config="config"
+                v-model="editorValue"
+                @ready="prefill"
             />
-            <link-browser
-                :field-key="$options.uuid"
-            />
-            <media-browser
-                @select="$options.editor.execute('mediaBrowser', $event)"
-                :field-key="$options.uuid"
+            <MediaBrowser
+                :field-key="uuid"
                 :multiple="true"
             />
+            <linkBrowser
+                :field-key="uuid"
+            />
             <snippet-browser
-                :field-key="$options.uuid"
+                :field-key="uuid"
                 :snippets="field.snippetBrowser"
             />
         </template>
-    </default-field>
+    </DefaultField>
 </template>
 <style lang="sass">
-    .ck-content.ck-editor__editable
-        resize: vertical
-    .ck.ck-reset.ck-editor
-        .ck.ck-toolbar
-            border-radius: 10px 10px 0 0
-        .ck-editor__editable_inline
-            border-radius: 0 0 10px 10px
-            margin: 0
-            padding: 0 10px
-            @import "../../sass/field"
-        .ck.ck-editor__editable:not(.ck-editor__nested-editable).ck-focused
-            box-shadow: none
+    @import "../../sass/field"
 </style>

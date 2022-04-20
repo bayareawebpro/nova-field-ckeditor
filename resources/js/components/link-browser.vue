@@ -41,7 +41,7 @@
                         this.items = items
                     })
                     .catch((error) => {
-                        this.$toasted.show(this.__(':message',{message:error}),{ type: 'error' })
+                        Nova.error(this.__(':message',{message:error}))
                     })
                     .finally(()=>{
                         setTimeout(()=> this.isLoading = false, 300)
@@ -85,46 +85,54 @@
 <template>
     <modal
         ref="modal"
-        class="shadow-lg"
         v-model="isVisible"
         :scrollLock="false"
         style="max-width: 220px; margin-right: auto">
-        <template slot="header">
+        <template #header>
             <div class="flex">
                 <input
                     ref="input"
                     type="search"
                     style="max-width: 155px;"
-                    placeholder="Search..."
+                    placeholder="Search Page Links..."
                     v-model="searchTerm"
                     @keydown.enter.prevent="fetch"
-                    class="shrink-1 border-primary-dark p-2 rounded"/>
+                    class="form-control form-input form-input-bordered"/>
             </div>
         </template>
-        <div v-if="items.length">
-            <div
-                :key="item.id"
-                v-for="(item) in items"
-                @click.prevent="insert(item)"
-                class="m-2 pb-2 text-white font-bold text-sm hover:text-primary cursor-pointer">
-                {{ item.title }}
-            </div>
-        </div>
-        <div v-else class="h-full flex flex-col items-center justify-center">
+        <div class="editor-links-collection text-gray-500 dark:text-gray-400">
             <template v-if="isLoading">
-                <div>
-                    <div class="relative" style="height: 64px"><loading/></div>
-                    <p class="text-white text-center m-0">Loading...</p>
+                <div class="relative" style="height: 32px">
+                    <loading/>
+                </div>
+                <p class="text-center">Loading...</p>
+            </template>
+            <template v-else-if="items.length">
+                <div
+                    :key="item.id"
+                    v-for="(item) in items"
+                    @click.prevent="insert(item)"
+                    class="editor-links-item">
+                    {{ item.title }}
                 </div>
             </template>
             <template v-else>
-                <p class="text-white text-center m-0">No Results</p>
-                <p class="text-sm">Type to search...</p>
+                <div class="editor-links-no-results">
+                    No Results
+                </div>
             </template>
         </div>
     </modal>
 </template>
 <style lang="sass">
-    .route-link.selected
-        color: yellow
+    .editor-links-collection
+        padding: 5px
+    .editor-links-item,
+    .editor-links-no-results
+        font-weight: bold
+        padding: 5px
+        cursor: pointer
+
+    .editor-links-no-results
+        cursor: default
 </style>
