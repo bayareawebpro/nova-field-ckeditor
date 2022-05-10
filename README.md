@@ -1,3 +1,6 @@
+
+> EOL NOTICE: No further development is planned.  This repository will be archived eventually, feel free to fork it and maintain your own version. 
+
 # Laravel Nova - CkEditor v5 Field
 Media, Links & Snippet Browsers (VueJS)
 
